@@ -4,6 +4,12 @@ Unofficial CLI tool for [Microsoft Azure Speech Service](https://docs.microsoft.
 
 [![Build status](https://dev.azure.com/msimecek/AzureSpeechCLI/_apis/build/status/AzureSpeechCLI-GitHub)](https://dev.azure.com/msimecek/AzureSpeechCLI/_build/latest?definitionId=2)
 
+## API
+
+This tool is using [Speech Services API v2.0](https://westus.cris.ai/swagger/ui/index). SDK was generated automatically from the Swagger definition using [AutoRest](https://github.com/Azure/AutoRest), but a few adjustments had to be made to the generated code.
+
+**Until this is refactored, it's not safe to regenerate the SDK with AutoRest.**
+
 ## Usage
 
 Go to [Releases](https://github.com/msimecek/Azure-Speech-CLI/releases) to download a compiled version for your operating system, or build directly from sources.
