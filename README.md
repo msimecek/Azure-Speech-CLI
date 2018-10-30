@@ -54,12 +54,15 @@ speech dataset create --help
 
 ### Wait
 
-Every *create* command offers optional `--wait` flag which makes the CLI block and wait for the create operation to complete (dataset processed, model trained, endpoint provisioned etc.).
+Every *create* command offers optional `--wait` flag which makes the CLI block and wait for the create operation to complete (dataset processed, model trained, endpoint provisioned etc.). When new entity is created, it writes corresponding ID to console.
 
 This is useful in automation pipelines when commands are run as individual steps in a complex process.
 
 ```
-EXAMPLE HERE :)
+speech dataset create --name CLI --audio "C:\Test.zip" --transcript "C:\test.txt" --wait
+Uploading acoustic dataset...
+Processing [..............]
+c34d53e4-oooo-48d5-b18f-7492332f287c
 ```
 
 ### Datasets
