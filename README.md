@@ -65,6 +65,23 @@ Processing [..............]
 c34d53e4-oooo-48d5-b18f-7492332f287c
 ```
 
+### Compile
+
+After setting your subscription key and endpoint you usually start by preparing data. CLI can help with the `compile` command.
+
+```
+speech compile --audio <source folder> --transcript <txt file> --output <target folder> --test-percentage 10
+```
+
+This command expects a folder with all audio samples as WAV files and TXT file with corresponding transcripts.
+
+It creates the output folder, divides data into two sets ("train" and "test") a compresses them into ZIP files. At the end you will get:
+
+* Train.zip
+* train.txt
+* Test.zip
+* test.txt
+
 ### Datasets
 
 There are two types of datasets in the Speech Service: acoustic and language. 
@@ -76,7 +93,7 @@ To create the language dataset, you need to provide TXT file with language data.
 To **create an acoustic dataset** use:
 
 ```
-dataset create --name CLI --audio "C:\train.zip" --transcript "C:\train.txt" --wait
+dataset create --name CLI --audio "C:\Train.zip" --transcript "C:\train.txt" --wait
 ```
 
 To **create a language dataset** use:
@@ -183,3 +200,7 @@ And get result URLs from response JSON.
 - [ ] Check if uploaded files are in the correct format (UTF-8 BOM text files)
 - [ ] Publish to Windows Store too
 
+-----
+
+By participating in this project, you
+agree to abide by the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
