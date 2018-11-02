@@ -28,9 +28,9 @@ namespace CustomSpeechCLI.Commands
         [Option(LongName = "test-percentage", ShortName = "tp", ValueName = "PERCENTAGE", Description = "What portion (in %) of source data will be split as test dataset. Default: 10")]
         int? TestPercentage { get; set; }
 
-        int OnExecute()
+        int OnExecute(IConsole console)
         {
-            Console.WriteLine("Compiling files...");
+            console.WriteLine("Compiling files...");
 
             var files = Directory.GetFiles(AudioPath);
             var lines = File.ReadAllLines(TranscriptPath).Where(l => !string.IsNullOrWhiteSpace(l)).ToArray(); // not interested in empty lines
@@ -39,7 +39,7 @@ namespace CustomSpeechCLI.Commands
             //TODO: vynechat řádky, které nemají WAV
 
             var numberOfTests = (int)Math.Round((double)(files.Length * (TestPercentage ?? 10) / 100));
-            Console.WriteLine($"Found {files.Length} files and {lines.Length} text lines. {numberOfTests} will be used as test dataset.");
+            console.WriteLine($"Found {files.Length} files and {lines.Length} text lines. {numberOfTests} will be used as test dataset.");
 
             var outputFolder = OutputPath ?? Path.Join(AudioPath, "Output");
             if (!Directory.Exists(outputFolder))
@@ -52,7 +52,7 @@ namespace CustomSpeechCLI.Commands
                 var trainLines = lines.Take(lines.Length - numberOfTests);
                 var trainFolder = Path.Join(outputFolder, "Train");
 
-                Console.WriteLine("Copying and ZIPing training files.");
+                console.WriteLine("Copying and ZIPing training files.");
                 CreateFolderAndCopyFiles(trainFolder, trainFiles);
                 ZipFile.CreateFromDirectory(trainFolder, Path.Join(outputFolder, "Train.zip"), CompressionLevel.Fastest, false);
                 File.WriteAllLines(Path.Join(outputFolder, "train.txt"), trainLines);
@@ -61,19 +61,19 @@ namespace CustomSpeechCLI.Commands
                 var testLines = lines.Reverse().Take(numberOfTests);
                 var testFolder = Path.Join(outputFolder, "Test");
 
-                Console.WriteLine("Copying and ZIPing testing files.");
+                console.WriteLine("Copying and ZIPing testing files.");
                 CreateFolderAndCopyFiles(testFolder, testFiles);
                 ZipFile.CreateFromDirectory(testFolder, Path.Join(outputFolder, "Test.zip"), CompressionLevel.Fastest, false);
                 File.WriteAllLines(Path.Join(outputFolder, "test.txt"), testLines);
             }
             catch(Exception ex)
             {
-                Console.WriteLine("Error: " + ex.Message);
+                console.Error.WriteLine("Error: " + ex.Message);
+                return -1;
             }
 
-            Console.WriteLine("Done.");
-
-            return 1;
+            console.WriteLine("Done.");
+            return 0;
         }
 
         void CreateFolderAndCopyFiles(string folder, IEnumerable<string> files)
