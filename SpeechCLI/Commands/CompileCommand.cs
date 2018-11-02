@@ -45,7 +45,6 @@ namespace CustomSpeechCLI.Commands
             if (!Directory.Exists(outputFolder))
                 Directory.CreateDirectory(outputFolder);
 
-            //TODO: refaktorovat
             try
             {
                 var trainFiles = files.Take(files.Length - numberOfTests);
@@ -53,18 +52,14 @@ namespace CustomSpeechCLI.Commands
                 var trainFolder = Path.Join(outputFolder, "Train");
 
                 console.WriteLine("Copying and ZIPing training files.");
-                CreateFolderAndCopyFiles(trainFolder, trainFiles);
-                ZipFile.CreateFromDirectory(trainFolder, Path.Join(outputFolder, "Train.zip"), CompressionLevel.Fastest, false);
-                File.WriteAllLines(Path.Join(outputFolder, "train.txt"), trainLines);
+                CreateCopyAndZip(trainFolder, trainFiles, trainLines, outputFolder, "Train.zip", "train.txt");
 
                 var testFiles = files.Reverse().Take(numberOfTests);
                 var testLines = lines.Reverse().Take(numberOfTests);
                 var testFolder = Path.Join(outputFolder, "Test");
 
                 console.WriteLine("Copying and ZIPing testing files.");
-                CreateFolderAndCopyFiles(testFolder, testFiles);
-                ZipFile.CreateFromDirectory(testFolder, Path.Join(outputFolder, "Test.zip"), CompressionLevel.Fastest, false);
-                File.WriteAllLines(Path.Join(outputFolder, "test.txt"), testLines);
+                CreateCopyAndZip(testFolder, testFiles, testLines, outputFolder, "Test.zip", "test.txt");
             }
             catch(Exception ex)
             {
@@ -76,15 +71,17 @@ namespace CustomSpeechCLI.Commands
             return 0;
         }
 
-        void CreateFolderAndCopyFiles(string folder, IEnumerable<string> files)
+        void CreateCopyAndZip(string folder, IEnumerable<string> audioFiles, IEnumerable<string> audioLines, string outputFolder, string zipFileName, string txtFileName)
         {
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
 
-            foreach (var f in files)
-            {
+            foreach (var f in audioFiles)
                 File.Copy(f, Path.Combine(folder, Path.GetFileName(f)), true);
-            }
+
+            ZipFile.CreateFromDirectory(folder, Path.Join(outputFolder, zipFileName), CompressionLevel.Fastest, false);
+            File.WriteAllLines(Path.Join(outputFolder, txtFileName), audioLines);
         }
+
     }
 }
