@@ -28,6 +28,9 @@ namespace CustomSpeechCLI.Commands
         [Option(LongName = "test-percentage", ShortName = "tp", ValueName = "PERCENTAGE", Description = "What portion (in %) of source data will be split as test dataset. Default: 10")]
         int? TestPercentage { get; set; }
 
+        [Option(CommandOptionType.NoValue, Description = "Delete training and testing WAV files when done and keep only ZIPped results.")]
+        bool? Clean { get; set; }
+
         int OnExecute(IConsole console)
         {
             console.WriteLine("Compiling files...");
@@ -60,6 +63,12 @@ namespace CustomSpeechCLI.Commands
 
                 console.WriteLine("Copying and ZIPing testing files.");
                 CreateCopyAndZip(testFolder, testFiles, testLines, outputFolder, "Test.zip", "test.txt");
+
+                if (Clean != null && Clean == true)
+                {
+                    Directory.Delete(trainFolder, true);
+                    Directory.Delete(testFolder, true);
+                }
             }
             catch(Exception ex)
             {
