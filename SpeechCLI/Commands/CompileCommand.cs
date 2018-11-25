@@ -35,7 +35,7 @@ namespace CustomSpeechCLI.Commands
         {
             console.WriteLine("Compiling files...");
 
-            var files = Directory.GetFiles(AudioPath);
+            var files = Directory.GetFiles(AudioPath).OrderBy(f => f).ToArray();
             var lines = File.ReadAllLines(TranscriptPath).Where(l => !string.IsNullOrWhiteSpace(l)).ToArray(); // not interested in empty lines
 
             //TODO: kontrola BOM, případně přidat BOM
