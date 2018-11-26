@@ -4,6 +4,7 @@ using CustomSpeechCLI.Attributes;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Rest.Serialization;
 using Newtonsoft.Json;
+using SpeechCLI.Commands;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -24,7 +25,7 @@ namespace CustomSpeechCLI.Commands
         public ModelCommand(ISpeechServicesAPIv20 speechApi, IConsole console) : base(speechApi, console) { }
 
         [Command(Description = "Create new acoustic model based on adaptation dataset.\nYou will need dataset ID and scenario ID (run 'model list-scenarios' first).")]
-        class Create
+        class Create : ParamActionCommandBase
         {
             [Option(Description = "(Required) Acoustic model name.")]
             [Required]
@@ -117,7 +118,7 @@ namespace CustomSpeechCLI.Commands
             }
         }
 
-        [Command(Description = "Lists scenario models for given locale.")]
+        [Command(Description = "Lists scenario models (base models) for given locale.")]
         class ListScenarios
         {
             [Option(Description = "Language of the model. Default: en-us.")]
@@ -152,7 +153,7 @@ namespace CustomSpeechCLI.Commands
         }
 
         [Command(Description = "Shows status of specific acoustic or language model.")]
-        class Status
+        class Status : ParamActionCommandBase
         {
             [Option(ValueName = "GUID", Description = "(Required) Model ID.")]
             [Required]
@@ -181,7 +182,7 @@ namespace CustomSpeechCLI.Commands
         }
 
         [Command(Description = "Delete specific acoustic or language model.")]
-        class Delete
+        class Delete : ParamActionCommandBase
         {
             [Option(ValueName = "GUID", Description = "(Required) ID of the model to delete.")]
             [Required]

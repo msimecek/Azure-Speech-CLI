@@ -1,5 +1,6 @@
 ﻿using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Rest.Serialization;
+using SpeechCLI.Commands;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -22,7 +23,7 @@ namespace CustomSpeechCLI.Commands
         }
 
         [Command(Description = "Sets speech API key and region. If you provide one value, the other will not change.")]
-        class Set
+        class Set : ParamActionCommandBase
         {
             [Option(Description = "Name of the config set. If  Creates new one if not found, otherwise updates existing one.")]
             [Required]
@@ -99,7 +100,7 @@ namespace CustomSpeechCLI.Commands
         }
 
         [Command(Description = "Selects which config set is currently active. Use this command to switch between subscriptions.")]
-        class Select
+        class Select : ParamActionCommandBase
         {
             [Option(Description = "Configuration set name. This will be selected for all API operations.")]
             [Required]
@@ -141,7 +142,7 @@ namespace CustomSpeechCLI.Commands
         }
 
         [Command(Description = "Removes selected configuration set.")]
-        class Delete
+        class Delete : ParamActionCommandBase
         {
             [Option(Description = "Configuration set name.")]
             [Required]

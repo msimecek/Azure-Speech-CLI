@@ -4,6 +4,7 @@ using CustomSpeechCLI.Attributes;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Rest.Serialization;
 using Newtonsoft.Json;
+using SpeechCLI.Commands;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -24,7 +25,8 @@ namespace CustomSpeechCLI.Commands
         public EndpointCommand(ISpeechServicesAPIv20 speechApi, IConsole console) : base(speechApi, console) { }
 
         [Command(Description = "Create new endpoint model based on acoustic model.\nYou will need model ID (run 'speech model list' first).")]
-        class Create
+        [HelpOption()]
+        class Create : ParamActionCommandBase
         {
             [Option(Description = "(Required) Endpoint name.")]
             [Required]
@@ -56,7 +58,7 @@ namespace CustomSpeechCLI.Commands
             bool Wait { get; set; }
 
 
-            int OnExecute()
+            int OnExecute(CommandLineApplication app)
             {
                 var endpointDefinition = new EndpointDefinition()
                 {
@@ -104,7 +106,7 @@ namespace CustomSpeechCLI.Commands
         }
 
         [Command(Description = "Show details of a specific endpoint.")]
-        class Show
+        class Show : ParamActionCommandBase
         {
             [Option(ValueName = "GUID", Description = "ID of the endpoint to show.")]
             [Guid]
@@ -130,7 +132,7 @@ namespace CustomSpeechCLI.Commands
         }
 
         [Command(Description = "Delete specific endpoint.")]
-        class Delete
+        class Delete : ParamActionCommandBase
         {
             [Option(ValueName = "GUID", Description = "ID of the endpoint to delete.")]
             [Required]
@@ -148,7 +150,7 @@ namespace CustomSpeechCLI.Commands
         }
 
         [Command(Description = "Delete specific endpoint's data.")]
-        class DeleteData
+        class DeleteData : ParamActionCommandBase
         {
             [Option(ValueName = "GUID", Description = "ID of the endpoint whose data to delete.")]
             [Required]

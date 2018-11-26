@@ -3,6 +3,7 @@ using CRIS.Models;
 using CustomSpeechCLI.Attributes;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Rest.Serialization;
+using SpeechCLI.Commands;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -21,7 +22,7 @@ namespace CustomSpeechCLI.Commands
         public BatchCommand(ISpeechServicesAPIv20 speechApi, IConsole console) : base(speechApi, console) { }
 
         [Command(Description = "Start new batch transcription.")]
-        class Create
+        class Create : ParamActionCommandBase
         {
             [Option(Description = "(Required) Name of this transcription.")]
             [Required]
@@ -96,7 +97,7 @@ namespace CustomSpeechCLI.Commands
         }
 
         [Command(Description = "Show specific batch transcription.")]
-        class Show
+        class Show : ParamActionCommandBase
         {
             [Option(ValueName = "GUID", Description = "ID of transcription. Use 'batch list' to get your transcriptions.")]
             [Guid]
@@ -119,7 +120,7 @@ namespace CustomSpeechCLI.Commands
         }
 
         [Command(Description = "Delete specific batch transcription.")]
-        class Delete
+        class Delete : ParamActionCommandBase
         {
             [Option(ValueName = "GUID", Description = "ID of the transcription to delete.")]
             [Required]

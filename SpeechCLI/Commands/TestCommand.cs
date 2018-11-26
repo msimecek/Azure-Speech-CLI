@@ -3,6 +3,7 @@ using CRIS.Models;
 using CustomSpeechCLI.Attributes;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Rest.Serialization;
+using SpeechCLI.Commands;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -22,7 +23,7 @@ namespace CustomSpeechCLI.Commands
         public TestCommand(ISpeechServicesAPIv20 speechApi, IConsole console) : base(speechApi, console) { }
 
         [Command(Description = "Creates new accuracy test.")]
-        class Create
+        class Create : ParamActionCommandBase
         {
             [Option(Description = "(Required) Accuracy test name.")]
             [Required]
@@ -90,7 +91,7 @@ namespace CustomSpeechCLI.Commands
         }
 
         [Command(Description = "Shows details of specified accuracy test.")]
-        class Show
+        class Show : ParamActionCommandBase
         {
             [Option(ValueName = "GUID", Description = "(Required) ID of the test to show.")]
             [Guid]
@@ -113,7 +114,7 @@ namespace CustomSpeechCLI.Commands
         }
 
         [Command(Description = "Shows status of specific accuracy test.")]
-        class Status
+        class Status : ParamActionCommandBase
         {
             [Option(ValueName = "GUID", Description = "(Required) Accuracy test ID.")]
             [Required]
@@ -139,7 +140,7 @@ namespace CustomSpeechCLI.Commands
         }
 
         [Command(Description = "Deletes specified accuracy test.")]
-        class Delete
+        class Delete : ParamActionCommandBase
         {
             [Option(ValueName ="GUID", Description = "(Required) ID of the test to show.")]
             [Guid]

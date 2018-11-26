@@ -4,6 +4,7 @@ using CustomSpeechCLI.Attributes;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Rest.Serialization;
 using Newtonsoft.Json;
+using SpeechCLI.Commands;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -23,7 +24,7 @@ namespace CustomSpeechCLI.Commands
         public DatasetCommand(ISpeechServicesAPIv20 speechApi, IConsole console) : base(speechApi, console) { }
 
         [Command(Description = "Create new acoustic dataset.\n- Provide --audio and --transcript file to create acoustic dataset.\n- Provide --language file to create language dataset.")]
-        class Create
+        class Create : ParamActionCommandBase
         {
             [Option(Description = "(Required) Name of this data import.")]
             [Required]
@@ -111,7 +112,7 @@ namespace CustomSpeechCLI.Commands
         }
 
         [Command(Description = "Show details of a specific dataset.")]
-        class Show
+        class Show : ParamActionCommandBase
         {
             [Option(ValueName = "GUID", Description = "ID of the dataset to show.")]
             [Guid]
@@ -137,7 +138,7 @@ namespace CustomSpeechCLI.Commands
         }
 
         [Command(Description = "Delete specific dataset.")]
-        class Delete
+        class Delete : ParamActionCommandBase
         {
             [Option(ValueName = "GUID", Description = "ID of the dataset to delete.")]
             [Required]
