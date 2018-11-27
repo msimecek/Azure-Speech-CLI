@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace CustomSpeechCLI
 {
     public class Config
     {
-        public static readonly string CONFIG_FILENAME = "config.json";
+        public static readonly string CONFIG_FILENAME = Path.Join(AppDomain.CurrentDomain.BaseDirectory, "config.json");
 
         public string Name { get; set; }
         public string SpeechKey { get; set; }
