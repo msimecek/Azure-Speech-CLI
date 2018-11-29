@@ -130,7 +130,7 @@ namespace CustomSpeechCLI.Commands
             int OnExecute()
             {
                 _console.WriteLine("Deleting transcription...");
-                var res = CallApi(() => _speechApi.DeleteDataset(Guid.Parse(Id)));
+                var res = CallApi(() => _speechApi.DeleteTranscription(Guid.Parse(Id)));
                 _console.WriteLine("Done.");
 
                 return res;
