@@ -7,7 +7,10 @@ using SpeechCLI.Commands;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
+using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CustomSpeechCLI.Commands
 {
@@ -17,6 +20,7 @@ namespace CustomSpeechCLI.Commands
     [Subcommand("show", typeof(Show))]
     //[Subcommand("status", typeof(Status))]
     [Subcommand("delete", typeof(Delete))]
+    [Subcommand("download", typeof(Download))]
     class BatchCommand : SpeechCommandBase
     {
         public BatchCommand(ISpeechServicesAPIv20 speechApi, IConsole console) : base(speechApi, console) { }
@@ -135,6 +139,87 @@ namespace CustomSpeechCLI.Commands
 
                 return res;
             }
+        }
+
+        [Command(Description = "Download results of finished transcription.")]
+        class Download : ParamActionCommandBase
+        {
+            [Option(ValueName = "GUID", Description = "ID of the transcription to download.")]
+            [Required]
+            [Guid]
+            string Id { get; set; }
+
+            [Option(Description = "Output directory where transcriptions will be downloaded.")]
+            [Required]
+            [LegalFilePath]
+            string OutDir { get; set; }
+
+            [Option(ValueName = "JSON|VTT", Description = "(Optional) Output format. Currently supported are: VTT and JSON. Default = JSON")]
+            string Format { get; set; }
+
+            async Task<int> OnExecute()
+            {
+                // get transcript
+                _console.WriteLine("Getting transcription...");
+                var transcription = CallApi<Transcription>(() => _speechApi.GetTranscription(Guid.Parse(Id)));
+
+                // read URLs (channels)
+                foreach (var url in transcription.ResultsUrls)
+                {
+                    var output = "WEBVTT" + Environment.NewLine + Environment.NewLine;
+
+                    using (var hc = new HttpClient())
+                    {
+                        // download URLs
+                        var res = await hc.GetAsync(url.Value);
+                        if (res.IsSuccessStatusCode)
+                        {
+                            // parse
+                            var rawContent = await res.Content.ReadAsStringAsync();
+                            var convertedContent = SafeJsonConvert.DeserializeObject<TranscriptionResult>(rawContent);
+                            var outputFileName = Path.Join(OutDir, convertedContent.AudioFileResults[0].AudioFileName);
+
+                            switch(Format?.ToLower())
+                            {
+                                case "vtt":
+                                    outputFileName += ".vtt";
+                                    var segments = convertedContent.AudioFileResults[0].SegmentResults;
+                                    foreach (var result in segments)
+                                    {
+                                        if (result.RecognitionStatus == "Success")
+                                        {
+                                            var best = result.NBest[0];
+                                            var startTime = TimeSpan.FromTicks(result.Offset).ToString(@"hh\:mm\:ss\.fff");
+                                            var endTime = TimeSpan.FromTicks(result.Offset + result.Duration).ToString(@"hh\:mm\:ss\.fff");
+
+                                            output += $"{startTime} --> {endTime}" + Environment.NewLine;
+
+                                            output += (best.Confidence > 0.5) ? best.Display : "";
+                                            output += Environment.NewLine + Environment.NewLine;
+                                        }
+                                    }
+                                    break;
+                                case "json":
+                                default:
+                                    outputFileName += ".json";
+                                    output = rawContent;
+                                    break;
+                            }
+
+                            // save to output
+                            File.WriteAllText(outputFileName, output);
+                            _console.WriteLine($"File {outputFileName} written.");
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                }
+
+                return 0;
+            }
+
         }
     }
 }
