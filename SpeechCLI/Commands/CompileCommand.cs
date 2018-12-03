@@ -7,7 +7,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 
-namespace CustomSpeechCLI.Commands
+namespace SpeechCLI.Commands
 {
     [Command(Description = "Helper to compile WAV samples and transcripts.")]
     class CompileCommand

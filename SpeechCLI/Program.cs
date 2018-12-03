@@ -1,5 +1,5 @@
 ﻿using CRIS;
-using CustomSpeechCLI.Commands;
+using SpeechCLI.Commands;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Rest.Serialization;
@@ -9,7 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 
-namespace CustomSpeechCLI
+namespace SpeechCLI
 {
     [Command(Name = "speech", Description = "Command-line interface for Azure Speech service.")]
     [Subcommand("config", typeof(ConfigCommand))]

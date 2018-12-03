@@ -1,6 +1,5 @@
 ﻿using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Rest.Serialization;
-using SpeechCLI.Commands;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace CustomSpeechCLI.Commands
+namespace SpeechCLI.Commands
 {
     [Command(Description = "Mandatory configuration. Use your Speech API key and region obtained from Azure portal or CRIS.ai portal.")]
     [Subcommand("set", typeof(Set))]
