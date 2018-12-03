@@ -192,6 +192,14 @@ speech batch show --id <GUID>
 
 And get result URLs from response JSON.
 
+Or you can call:
+
+```
+speech batch download --id <GUID> --out-dir <PATH> --format VTT
+```
+
+To download transcriptions and convert them to VTT (default is `JSON`).
+
 ## TODO
 
 - [ ] Work with names too, not just GUIDs
