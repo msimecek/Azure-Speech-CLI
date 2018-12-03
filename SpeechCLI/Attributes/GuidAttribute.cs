@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace CustomSpeechCLI.Attributes
+namespace SpeechCLI.Attributes
 {
     public class GuidAttribute : ValidationAttribute
     {

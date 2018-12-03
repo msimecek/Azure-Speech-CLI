@@ -1,9 +1,8 @@
 ﻿using CRIS;
 using CRIS.Models;
-using CustomSpeechCLI.Attributes;
+using SpeechCLI.Attributes;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Rest.Serialization;
-using SpeechCLI.Commands;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,7 +11,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CustomSpeechCLI.Commands
+namespace SpeechCLI.Commands
 {
     [Command(Description = "Batch transcription.")]
     [Subcommand("create", typeof(Create))]

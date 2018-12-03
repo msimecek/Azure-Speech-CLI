@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 
-namespace CustomSpeechCLI.Commands
+namespace SpeechCLI.Commands
 {
     [HelpOption("--help")]
     abstract class SpeechCommandBase

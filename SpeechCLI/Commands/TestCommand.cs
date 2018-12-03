@@ -1,16 +1,15 @@
 ﻿using CRIS;
 using CRIS.Models;
-using CustomSpeechCLI.Attributes;
+using SpeechCLI.Attributes;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Rest.Serialization;
-using SpeechCLI.Commands;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Threading;
 
-namespace CustomSpeechCLI.Commands
+namespace SpeechCLI.Commands
 {
     [Command(Description = "Commands related to acoustic model tests.")]
     [Subcommand("create", typeof(Create))]
