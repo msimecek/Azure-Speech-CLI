@@ -81,7 +81,6 @@ namespace SpeechCLI.Commands
                 }
 
                 _console.WriteLine("Creating model...");
-                _console.WriteLine();
 
                 var res = CreateAndWait(() => _speechApi.CreateModel(modelDefinition), Wait, _speechApi.GetModel);
 
@@ -95,7 +94,6 @@ namespace SpeechCLI.Commands
             int OnExecute()
             {
                 _console.WriteLine("Getting models...");
-                _console.WriteLine();
 
                 var res = CallApi<List<Model>>(_speechApi.GetModels);
                 if (res == null)
@@ -126,7 +124,6 @@ namespace SpeechCLI.Commands
             int OnExecute()
             {
                 _console.WriteLine("Getting scenarios...");
-                _console.WriteLine();
 
                 var res = CallApi<List<Model>>(_speechApi.GetModels);
                 if (res == null)
@@ -165,7 +162,6 @@ namespace SpeechCLI.Commands
             int OnExecute()
             {
                 _console.WriteLine("Getting model...");
-                _console.WriteLine();
 
                 var res = CallApi<Model>(() => _speechApi.GetModel(Guid.Parse(Id)));
                 if (res == null)
@@ -188,13 +184,12 @@ namespace SpeechCLI.Commands
             [Guid]
             string Id { get; set; }
 
-            int OnExecute(IConsole console)
+            int OnExecute()
             {
-                console.WriteLine("Deleting model...");
-                _console.WriteLine();
+                _console.WriteLine("Deleting model...");
 
                 var res = CallApi(() => _speechApi.DeleteModel(Guid.Parse(Id)));
-                console.WriteLine("Done.");
+                _console.WriteLine("Done.");
 
                 return res;
             }

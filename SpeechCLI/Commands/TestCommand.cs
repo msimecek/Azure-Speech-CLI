@@ -67,7 +67,6 @@ namespace SpeechCLI.Commands
             int OnExecute()
             {
                 _console.WriteLine("Getting accuracy tests...");
-                _console.WriteLine();
 
                 var res = CallApi<List<Test>>(_speechApi.GetAccuracyTests);
                 if (res == null)
@@ -100,7 +99,6 @@ namespace SpeechCLI.Commands
             int OnExecute()
             {
                 _console.WriteLine("Getting test...");
-                _console.WriteLine();
 
                 var res = CallApi<Test>(() => _speechApi.GetAccuracyTest(Guid.Parse(Id)));
                 if (res == null)

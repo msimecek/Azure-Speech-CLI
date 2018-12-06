@@ -87,7 +87,6 @@ namespace SpeechCLI.Commands
             int OnExecute()
             {
                 _console.WriteLine("Getting datasets...");
-                _console.WriteLine();
 
                 var datasets = CallApi<List<Dataset>>(_speechApi.GetDatasets);
                 if (datasets == null)
@@ -121,7 +120,6 @@ namespace SpeechCLI.Commands
             int OnExecute()
             {
                 _console.WriteLine("Getting dataset...");
-                _console.WriteLine();
 
                 var res = CallApi<Dataset>(() => _speechApi.GetDataset(Guid.Parse(Id)));
 
@@ -147,7 +145,6 @@ namespace SpeechCLI.Commands
             int OnExecute()
             {
                 _console.WriteLine("Deleting dataset...");
-                _console.WriteLine();
 
                 var res = CallApi(() => _speechApi.DeleteDataset(Guid.Parse(Id)));
                 _console.WriteLine("Done.");

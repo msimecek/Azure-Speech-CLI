@@ -82,7 +82,6 @@ namespace SpeechCLI.Commands
             int OnExecute()
             {
                 _console.WriteLine("Getting endpoints...");
-                _console.WriteLine();
 
                 var res = CallApi<List<Endpoint>>(_speechApi.GetEndpoints);
                 if (res == null)
@@ -115,7 +114,6 @@ namespace SpeechCLI.Commands
             int OnExecute()
             {
                 _console.WriteLine("Getting endpoint...");
-                _console.WriteLine();
 
                 var res = CallApi<Endpoint>(() => _speechApi.GetEndpoint(Guid.Parse(Id)));
 

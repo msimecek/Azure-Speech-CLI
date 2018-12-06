@@ -77,7 +77,6 @@ namespace SpeechCLI.Commands
             int OnExecute()
             {
                 _console.WriteLine("Getting transcriptions...");
-                _console.WriteLine();
 
                 var res = CallApi<List<Transcription>>(_speechApi.GetTranscriptions);
                 if (res == null)
@@ -110,7 +109,6 @@ namespace SpeechCLI.Commands
             int OnExecute()
             {
                 _console.WriteLine("Getting transcription...");
-                _console.WriteLine();
 
                 var res = CallApi<Transcription>(() => _speechApi.GetTranscription(Guid.Parse(Id)));
                 if (res == null)
