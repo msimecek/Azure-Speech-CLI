@@ -181,13 +181,13 @@ speech endpoint create --name CLI --locale en-us --model <GUID> --language-model
 A bonus command, which doesn't revolve around entities. Batch transcription generates a transcript of long audio file with timestamps, using your custom model.
 
 ```
-speech batch create --name CLI --locale en-us --recording <URL> --model <GUID> --language <GUID> --wait
+speech transcript create --name CLI --locale en-us --recording <URL> --model <GUID> --language <GUID> --wait
 ```
 
 Once the batch is done, you can call:
 
 ```
-speech batch show --id <GUID>
+speech transcript show --id <GUID>
 ```
 
 And get result URLs from response JSON.
@@ -195,7 +195,7 @@ And get result URLs from response JSON.
 Or you can call:
 
 ```
-speech batch download --id <GUID> --out-dir <PATH> --format VTT
+speech transcript download --id <GUID> --out-dir <PATH> --format VTT
 ```
 
 To download transcriptions and convert them to VTT (default is `JSON`).
