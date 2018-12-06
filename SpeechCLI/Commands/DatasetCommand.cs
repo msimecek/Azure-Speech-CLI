@@ -50,6 +50,9 @@ namespace SpeechCLI.Commands
             [Option(CommandOptionType.NoValue, Description = "Will stop and wait for dataset to be ready.")]
             bool Wait { get; set; }
 
+            [Option(Description = "(Optional) Custom properties of this dataset (JSON serialized object with key/values, where all values must be strings)")]
+            string Properties { get; set; }
+
             int OnExecute()
             {
                 var res = 0;
@@ -61,7 +64,7 @@ namespace SpeechCLI.Commands
 
                     _console.WriteLine("Uploading acoustic dataset...");
                     res = CreateAndWait(
-                        () => _speechApi.UploadDataset(Name, Description, Locale ?? "en-us", "Acoustic", audiodata: audiodataFile, transcriptions: transcriptFile), 
+                        () => _speechApi.UploadDataset(Name, Description, Locale ?? "en-us", "Acoustic", audiodata: audiodataFile, transcriptions: transcriptFile, properties: Properties), 
                         Wait,
                         _speechApi.GetDataset);
                 }
@@ -72,7 +75,7 @@ namespace SpeechCLI.Commands
 
                     _console.WriteLine("Uploading language dataset...");
                     res = CreateAndWait(
-                        () => _speechApi.UploadDataset(Name, Description, Locale ?? "en-us", "Language", languagedata: languageFile), 
+                        () => _speechApi.UploadDataset(Name, Description, Locale ?? "en-us", "Language", languagedata: languageFile, properties: Properties), 
                         Wait, 
                         _speechApi.GetDataset);
                 }
