@@ -18,7 +18,7 @@ namespace SpeechCLI
     [Subcommand("test", typeof(TestCommand))]
     [Subcommand("endpoint", typeof(EndpointCommand))]
     [Subcommand("compile", typeof(CompileCommand))]
-    [Subcommand("batch", typeof(BatchCommand))]
+    [Subcommand("transcript", typeof(TranscriptCommand))]
     class Program
     {
         static void Main(string[] args)

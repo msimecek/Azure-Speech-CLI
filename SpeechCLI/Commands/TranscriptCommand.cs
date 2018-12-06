@@ -20,9 +20,9 @@ namespace SpeechCLI.Commands
     //[Subcommand("status", typeof(Status))]
     [Subcommand("delete", typeof(Delete))]
     [Subcommand("download", typeof(Download))]
-    class BatchCommand : SpeechCommandBase
+    class TranscriptCommand : SpeechCommandBase
     {
-        public BatchCommand(ISpeechServicesAPIv20 speechApi, IConsole console) : base(speechApi, console) { }
+        public TranscriptCommand(ISpeechServicesAPIv20 speechApi, IConsole console) : base(speechApi, console) { }
 
         [Command(Description = "Start new batch transcription.")]
         class Create : ParamActionCommandBase
