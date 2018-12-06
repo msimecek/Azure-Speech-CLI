@@ -56,6 +56,9 @@ namespace SpeechCLI.Commands
             [Option(CommandOptionType.NoValue, Description = "Will stop and wait for endpoint to be ready.")]
             bool Wait { get; set; }
 
+            [Option(Description = "Custom properties of this endpoint. Format: '--properties prop1=val1;prop2=val2;prop3=val3'")]
+            string Properties { get; set; }
+
 
             int OnExecute(CommandLineApplication app)
             {
@@ -67,6 +70,7 @@ namespace SpeechCLI.Commands
                     ModelsProperty = new List<ModelIdentity>() { new ModelIdentity(Guid.Parse(AcousticModel)), new ModelIdentity(Guid.Parse(LanguageModel)) },
                     ConcurrentRecognitions = ConcurrentRecognitions ?? 1,
                     ContentLoggingEnabled = ContentLogging ?? true,
+                    Properties = SplitProperties(Properties),
                 };
 
                 _console.WriteLine("Creating endpoint...");

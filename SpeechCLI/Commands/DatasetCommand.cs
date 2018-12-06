@@ -50,12 +50,17 @@ namespace SpeechCLI.Commands
             [Option(CommandOptionType.NoValue, Description = "Will stop and wait for dataset to be ready.")]
             bool Wait { get; set; }
 
-            [Option(Description = "(Optional) Custom properties of this dataset (JSON serialized object with key/values, where all values must be strings)")]
+            [Option(Description = "Custom properties of this dataset. Format: '--properties prop1=val1;prop2=val2;prop3=val3'")]
             string Properties { get; set; }
 
             int OnExecute()
             {
                 var res = 0;
+
+                if (Properties != null)
+                {
+                    Properties = SafeJsonConvert.SerializeObject(SplitProperties(Properties)); // transform to the right format for upload
+                }
 
                 if (Audio != null && Transcript != null)
                 {

@@ -44,6 +44,9 @@ namespace SpeechCLI.Commands
             [Option(CommandOptionType.NoValue, Description = "Will stop and wait for testing to complete.")]
             bool Wait { get; set; }
 
+            [Option(Description = "Custom properties of this test. Format: '--properties prop1=val1;prop2=val2;prop3=val3'")]
+            string Properties { get; set; }
+
             int OnExecute()
             {
                 var testDefinition = new TestDefinition()
@@ -51,7 +54,8 @@ namespace SpeechCLI.Commands
                     Dataset = new DatasetIdentity(Guid.Parse(AudioDataset)),
                     Description = Description,
                     ModelsProperty = new List<ModelIdentity>() { new ModelIdentity(Guid.Parse(Model)) },
-                    Name = Name
+                    Name = Name,
+                    Properties = SplitProperties(Properties),
                 };
 
                 _console.WriteLine("Creating test...");

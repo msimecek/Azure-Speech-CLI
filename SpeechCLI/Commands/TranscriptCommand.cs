@@ -50,9 +50,12 @@ namespace SpeechCLI.Commands
             [Option(CommandOptionType.NoValue, Description = "Will stop and wait for transcription to be ready.")]
             bool Wait { get; set; }
 
+            [Option(Description = "Custom properties of this transcription. Format: '--properties prop1=val1;prop2=val2;prop3=val3'")]
+            string Properties { get; set; }
+
             int OnExecute()
             {
-                var definition = new TranscriptionDefinition(Recording, Locale ?? "en-us", Name);
+                var definition = new TranscriptionDefinition(Recording, Locale ?? "en-us", Name, properties: SplitProperties(Properties));
                 definition.ModelsProperty = new List<ModelIdentity>();
 
                 if (!string.IsNullOrEmpty(Model))

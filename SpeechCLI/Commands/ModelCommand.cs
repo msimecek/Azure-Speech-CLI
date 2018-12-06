@@ -52,6 +52,8 @@ namespace SpeechCLI.Commands
             [Option(CommandOptionType.NoValue, Description = "Will stop and wait for training to complete.")]
             bool Wait { get; set; }
 
+            [Option(Description = "Custom properties of this model. Format: '--properties prop1=val1;prop2=val2;prop3=val3'")]
+            string Properties { get; set; }
 
             int OnExecute()
             {
@@ -67,6 +69,7 @@ namespace SpeechCLI.Commands
                     Locale = Locale ?? "en-us",
                     Description = Description,
                     Name = Name,
+                    Properties = SplitProperties(Properties),
                 };
 
                 if (!string.IsNullOrWhiteSpace(AudioDataset))
