@@ -52,6 +52,21 @@ speech dataset --help
 speech dataset create --help
 ```
 
+### Entity operations
+
+Every entity supports basic set of operations:
+
+* `create`
+* `list`
+* `show`
+* `delete`
+
+When working with a specific entity, ID is usually required:
+
+```
+speech dataset show --id <GUID>
+```
+
 ### Wait
 
 Every *create* command offers optional `--wait` flag which makes the CLI block and wait for the create operation to complete (dataset processed, model trained, endpoint provisioned etc.). When new entity is created, it writes corresponding ID to console.
@@ -65,9 +80,11 @@ Processing [..............]
 c34d53e4-oooo-48d5-b18f-7492332f287c
 ```
 
+## Commands
+
 ### Compile
 
-After setting your subscription key and endpoint you usually start by preparing data. CLI can help with the `compile` command.
+After setting your subscription key and endpoint you usually start by preparing data. CLI can help by providing the `compile` command.
 
 ```
 speech compile --audio <source folder> --transcript <txt file> --output <target folder> --test-percentage 10
@@ -75,7 +92,7 @@ speech compile --audio <source folder> --transcript <txt file> --output <target 
 
 This command expects a folder with all audio samples as WAV files and TXT file with corresponding transcripts.
 
-It creates the output folder, divides data into two sets ("train" and "test") a compresses them into ZIP files. At the end you will get:
+It creates the output folder, divides data in two sets ("train" and "test") a compresses them into ZIP files. At the end you will get:
 
 * Train.zip
 * train.txt
@@ -84,7 +101,7 @@ It creates the output folder, divides data into two sets ("train" and "test") a 
 
 ### Datasets
 
-There are two types of datasets in the Speech Service: acoustic and language. 
+There are two types of datasets in the Speech Service: **acoustic** and **language**. 
 
 To create the acoustic dataset, you need to provide a ZIP file with all audio samples and TXT file with corresponding transcriptions.
 
@@ -130,7 +147,6 @@ Output:
 
 ```
 Getting scenarios...
-
 d36f6c4b-8f75-41d1-b126-c38e46a059af    Unified V3 EMBR - ULM
 c7a69da3-27de-4a4b-ab75-b6716f6321e5    V2.5 Conversational (AM/LM adapt)
 a1f8db59-40ff-4f0e-b011-37629c3a1a53    V2.0 Conversational (AM/LM adapt) - Deprecated
@@ -162,7 +178,7 @@ To see a **detail of particular test**, call:
 
 ```
 speech test list
-
+...
 speech test show --id <GUID>
 ```
 
@@ -204,9 +220,9 @@ To download transcriptions and convert them to VTT (default is `JSON`).
 
 - [ ] Work with names too, not just GUIDs
 - [ ] Rework how configuration is initialized and checked on startup
-- [ ] Add `Properties` field to every entity
 - [ ] Check if uploaded files are in the correct format (UTF-8 BOM text files)
 - [ ] Publish to Windows Store too
+- [ ] Add unit tests :)
 
 -----
 
