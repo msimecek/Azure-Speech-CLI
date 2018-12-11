@@ -38,8 +38,14 @@ namespace SpeechCLI.Commands
             var files = Directory.GetFiles(AudioPath).OrderBy(f => f).ToArray();
             var lines = File.ReadAllLines(TranscriptPath).Where(l => !string.IsNullOrWhiteSpace(l)).ToArray(); // not interested in empty lines
 
-            //TODO: kontrola BOM, případně přidat BOM
-            //TODO: vynechat řádky, které nemají WAV
+            if (files.Length == 0 || lines.Length == 0)
+            {
+                console.Error.WriteLine("No source files found or transcript file empty.");
+                return -1;
+            }
+
+            //TODO: check for BOM, add BOM if missing
+            //TODO: skip lines which don't have a corresponding WAV file
 
             var numberOfTests = (int)Math.Round((double)(files.Length * (TestPercentage ?? 10) / 100));
             console.WriteLine($"Found {files.Length} files and {lines.Length} text lines. {numberOfTests} will be used as test dataset.");
@@ -57,17 +63,20 @@ namespace SpeechCLI.Commands
                 console.WriteLine("Copying and ZIPing training files.");
                 CreateCopyAndZip(trainFolder, trainFiles, trainLines, outputFolder, "Train.zip", "train.txt");
 
-                var testFiles = files.Reverse().Take(numberOfTests);
-                var testLines = lines.Reverse().Take(numberOfTests);
-                var testFolder = Path.Join(outputFolder, "Test");
-
-                console.WriteLine("Copying and ZIPing testing files.");
-                CreateCopyAndZip(testFolder, testFiles, testLines, outputFolder, "Test.zip", "test.txt");
-
                 if (Clean != null && Clean == true)
-                {
                     Directory.Delete(trainFolder, true);
-                    Directory.Delete(testFolder, true);
+
+                if (numberOfTests > 0)
+                {
+                    var testFiles = files.Reverse().Take(numberOfTests);
+                    var testLines = lines.Reverse().Take(numberOfTests);
+                    var testFolder = Path.Join(outputFolder, "Test");
+
+                    console.WriteLine("Copying and ZIPing testing files.");
+                    CreateCopyAndZip(testFolder, testFiles, testLines, outputFolder, "Test.zip", "test.txt");
+
+                    if (Clean != null && Clean == true)
+                        Directory.Delete(testFolder, true);
                 }
             }
             catch(Exception ex)
