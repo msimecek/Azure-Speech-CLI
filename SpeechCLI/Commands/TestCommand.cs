@@ -41,6 +41,11 @@ namespace SpeechCLI.Commands
             [Required]
             string Model { get; set; }
 
+            [Option(ShortName = "lm", ValueName = "GUID", Description = "(Required) ID of the lanuage model. Run 'speech model list' to see your models.")]
+            [Guid]
+            [Required]
+            string LanguageModel { get; set; }
+
             [Option(CommandOptionType.NoValue, Description = "Will stop and wait for testing to complete.")]
             bool Wait { get; set; }
 
@@ -53,7 +58,7 @@ namespace SpeechCLI.Commands
                 {
                     Dataset = new DatasetIdentity(Guid.Parse(AudioDataset)),
                     Description = Description,
-                    ModelsProperty = new List<ModelIdentity>() { new ModelIdentity(Guid.Parse(Model)) },
+                    ModelsProperty = new List<ModelIdentity>() { new ModelIdentity(Guid.Parse(Model)), new ModelIdentity(Guid.Parse(LanguageModel)) },
                     Name = Name,
                     Properties = SplitProperties(Properties),
                 };
