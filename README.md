@@ -168,13 +168,13 @@ model create --name CLI-Lang --locale en-us --language-dataset <GUID> --scenario
 
 ### Tests
 
-To **create an accuracy test** you need two GUIDs: testing audio dataset ID and ID of the acoustic model you are testing:
+To **create an accuracy test** you need three GUIDs: testing audio dataset ID, ID of the acoustic model you are testing and ID of a language model:
 
 ```
-speech test create --name CLI --audio-dataset <GUID> --model <GUID> --wait
+speech test create --name CLI --audio-dataset <GUID> --model <GUID> --language-model <GUID> --wait
 ```
 
-To see a **detail of particular test**, call:
+To see the **detail of particular test**, call:
 
 ```
 speech test list
