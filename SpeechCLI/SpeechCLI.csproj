@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -7,6 +7,12 @@
     <PackageId>AzureSpeechCLI</PackageId>
     <Authors>Martin Simecek</Authors>
     <Product>Azure Speech CLI</Product>
+
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>speech</ToolCommandName>
+    <PackageProjectUrl>https://github.com/msimecek/Azure-Speech-CLI</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/msimecek/Azure-Speech-CLI</RepositoryUrl>
+    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
   <ItemGroup>
