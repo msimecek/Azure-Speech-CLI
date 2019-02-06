@@ -13,6 +13,8 @@
     <PackageProjectUrl>https://github.com/msimecek/Azure-Speech-CLI</PackageProjectUrl>
     <RepositoryUrl>https://github.com/msimecek/Azure-Speech-CLI</RepositoryUrl>
     <NeutralLanguage>en</NeutralLanguage>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageTags>azure speech cli</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
