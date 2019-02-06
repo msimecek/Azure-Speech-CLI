@@ -124,9 +124,13 @@ namespace SpeechCLI.Commands
             [Option(Description = "Language of the model. Default: en-us.")]
             string Locale { get; set; }
 
+            [Option(CommandOptionType.NoValue, Description = "Returns only a list of GUIDs, without additional information. Ordered from newest to oldest.")]
+            bool Simple { get; set; }
+
             int OnExecute()
             {
-                _console.WriteLine("Getting scenarios...");
+                if (!Simple)
+                    _console.WriteLine("Getting scenarios...");
 
                 var res = CallApi<List<Model>>(_speechApi.GetModels);
                 if (res == null)
@@ -140,11 +144,13 @@ namespace SpeechCLI.Commands
                 {
                     foreach (var m in res
                         .Where(m => m.Locale.ToLower() == (Locale ?? "en-us").ToLower() && m.BaseModel == null)
-                        .OrderBy(m => m.ModelKind))
+                        .OrderByDescending(m => m.CreatedDateTime))
                     {
-                        _console.WriteLine($"{m.Id,30}\t{m.Name}");
+                        _console.WriteLine(
+                            Simple ? 
+                                $"{m.Id}" : 
+                                $"{m.Id,30} {m.Name,30} {m.CreatedDateTime}");
                     }
-
                 }
 
                 return 0;
