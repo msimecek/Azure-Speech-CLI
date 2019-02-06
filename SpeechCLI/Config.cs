@@ -7,7 +7,7 @@ namespace SpeechCLI
 {
     public class Config
     {
-        public static readonly string CONFIG_FILENAME = Path.Join(AppDomain.CurrentDomain.BaseDirectory, "config.json");
+        public static readonly string CONFIG_FILENAME = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "/.speech/config.json");
 
         public string Name { get; set; }
         public string SpeechKey { get; set; }

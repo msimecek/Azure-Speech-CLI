@@ -29,30 +29,29 @@ namespace SpeechCLI
 
             if (!File.Exists(Config.CONFIG_FILENAME))
             {
-                Console.WriteLine("No configuration found. Please run 'config set' first.");
+                Directory.CreateDirectory(Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".speech"));
+                File.WriteAllText(Config.CONFIG_FILENAME, "[]");
+                Console.WriteLine("Please run 'config set' and add your Speech key.");
+            }
+            
+            var config = SafeJsonConvert.DeserializeObject<List<Config>>(File.ReadAllText(Config.CONFIG_FILENAME)).FirstOrDefault(c => c.Selected == true);
+            if (config == null)
+            {
+                Console.WriteLine("No configuration set selected. Run 'config select --name <config set name>' to choose one.");
                 app.Conventions.UseDefaultConventions();
             }
             else
             {
-                var config = SafeJsonConvert.DeserializeObject<List<Config>>(File.ReadAllText(Config.CONFIG_FILENAME)).FirstOrDefault(c => c.Selected == true);
-                if (config == null)
-                {
-                    Console.WriteLine("No configuration set selected. Run 'config select --name <config set name>' to choose one.");
-                    app.Conventions.UseDefaultConventions();
-                }
-                else
-                {
-                    var hc = new HttpClient();
-                    hc.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", config.SpeechKey);
-                    var sdk = new SpeechServicesAPIv20(hc, true);
-                    sdk.BaseUri = new Uri($"https://{config.SpeechRegion}.cris.ai");
+                var hc = new HttpClient();
+                hc.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", config.SpeechKey);
+                var sdk = new SpeechServicesAPIv20(hc, true);
+                sdk.BaseUri = new Uri($"https://{config.SpeechRegion}.cris.ai");
 
-                    var services = new ServiceCollection()
-                        .AddSingleton<ISpeechServicesAPIv20>(sdk)
-                        .BuildServiceProvider();
+                var services = new ServiceCollection()
+                    .AddSingleton<ISpeechServicesAPIv20>(sdk)
+                    .BuildServiceProvider();
 
-                    app.Conventions.UseDefaultConventions().UseConstructorInjection(services);
-                }
+                app.Conventions.UseDefaultConventions().UseConstructorInjection(services);
             }
 
             try
