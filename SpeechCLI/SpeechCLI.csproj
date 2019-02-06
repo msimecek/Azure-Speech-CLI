@@ -8,7 +8,7 @@
     <Authors>Martin Simecek</Authors>
     <Product>Azure Speech CLI</Product>
 
-    <PackAsTool>true</PackAsTool>
+    <PackAsTool>false</PackAsTool>
     <ToolCommandName>speech</ToolCommandName>
     <PackageProjectUrl>https://github.com/msimecek/Azure-Speech-CLI</PackageProjectUrl>
     <RepositoryUrl>https://github.com/msimecek/Azure-Speech-CLI</RepositoryUrl>
