@@ -12,11 +12,16 @@ This tool is using [Speech Services API v2.0](https://westus.cris.ai/swagger/ui/
 
 ## Usage
 
-Go to [Releases](https://github.com/msimecek/Azure-Speech-CLI/releases) to download a compiled version for your operating system, or build directly from sources.
+**Now available as dotnet tool!** With .NET Core installed just run:
+
+```bash
+dotnet tool install -g azurespeechcli
+```
+
+Alternatively, you can go to [Releases](https://github.com/msimecek/Azure-Speech-CLI/releases) and download a compiled version for your operating system, or build directly from sources.
 
 > CLI is created with .NET Core and builds are currently running for both Windows and MacOS platforms.
 >
-> Windows Store version is planned.
 
 ### Configuration
 
@@ -131,7 +136,7 @@ To **show details of dataset**:
 dataset show --id 63f20d88-f531-4af0-bc85-58e0e9dAAACCDD
 ```
 
-### Models
+### Base models
 
 Similarly to datasets there are two types of models in the Speech Service: acoustic and language. Both are created from previously uploaded datasets.
 
@@ -143,16 +148,42 @@ model list-scenarios --locale en-us
 
 *`en-us` is the default locale, but you can choose a different one.*
 
+The list will be order by model date - it's recommended to use the newest. Beware that GUIDs can vary between datacenters!
+
 Output:
 
 ```
 Getting scenarios...
-d36f6c4b-8f75-41d1-b126-c38e46a059af    Unified V3 EMBR - ULM
-c7a69da3-27de-4a4b-ab75-b6716f6321e5    V2.5 Conversational (AM/LM adapt)
-a1f8db59-40ff-4f0e-b011-37629c3a1a53    V2.0 Conversational (AM/LM adapt) - Deprecated
-cc7826ac-5355-471d-9bc6-a54673d06e45    V1.0 Conversational (AM/LM adapt) - Deprecated
-a3d8aab9-6f36-44cd-9904-b37389ce2bfa    V1.0 Interactive (AM/LM adapt) - Deprecated
+042de52f-d7b7-489d-921c-1b0a59d89dd1     v4.5 Unified 11. 1. 2019 13:38:33
+7a1d51ce-a26d-4ee3-aee8-0fa020a65086     v3.3 Unified 26. 11. 2018 19:59:20
+5d3b7fb0-f493-4e97-9616-e20130327304     v3.2 Unified 26. 11. 2018 18:59:20
+d36f6c4b-8f75-41d1-b126-c38e46a059af     Unified V3 EMBR - ULM 2. 8. 2018 15:12:17
+c7a69da3-27de-4a4b-ab75-b6716f6321e5 V2.5 Conversational (AM/LM adapt) 16. 4. 2018 11:55:00
+a1f8db59-40ff-4f0e-b011-37629c3a1a53 V2.0 Conversational (AM/LM adapt) - Deprecated 17. 8. 2017 12:00:00
+cc7826ac-5355-471d-9bc6-a54673d06e45 V1.0 Conversational (AM/LM adapt) - Deprecated 4. 11. 2016 12:01:02
+a3d8aab9-6f36-44cd-9904-b37389ce2bfa V1.0 Interactive (AM/LM adapt) - Deprecated 4. 11. 2016 8:23:42
 ```
+
+To use in scripts, you may want to get just a list of IDs:
+
+```
+model list-scenarios --simple
+```
+
+Output:
+
+```
+042de52f-d7b7-489d-921c-1b0a59d89dd1
+7a1d51ce-a26d-4ee3-aee8-0fa020a65086
+5d3b7fb0-f493-4e97-9616-e20130327304
+d36f6c4b-8f75-41d1-b126-c38e46a059af
+c7a69da3-27de-4a4b-ab75-b6716f6321e5
+a1f8db59-40ff-4f0e-b011-37629c3a1a53
+cc7826ac-5355-471d-9bc6-a54673d06e45
+a3d8aab9-6f36-44cd-9904-b37389ce2bfa
+```
+
+### Models
 
 Then you can use GUID of selected scenario in the `create` command:
 
@@ -221,7 +252,6 @@ To download transcriptions and convert them to VTT (default is `JSON`).
 - [ ] Work with names too, not just GUIDs
 - [ ] Rework how configuration is initialized and checked on startup
 - [ ] Check if uploaded files are in the correct format (UTF-8 BOM text files)
-- [ ] Publish to Windows Store too
 - [ ] Add unit tests :)
 
 -----
