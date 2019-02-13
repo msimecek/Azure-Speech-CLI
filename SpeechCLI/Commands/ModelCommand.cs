@@ -19,6 +19,7 @@ namespace SpeechCLI.Commands
     [Subcommand("list-scenarios", typeof(ListScenarios))]
     [Subcommand("status", typeof(Status))]
     [Subcommand("delete", typeof(Delete))]
+    [Subcommand("locales", typeof(Locales))]
     class ModelCommand : SpeechCommandBase
     {
         public ModelCommand(ISpeechServicesAPIv20 speechApi, IConsole console) : base(speechApi, console) { }
@@ -201,6 +202,50 @@ namespace SpeechCLI.Commands
                 _console.WriteLine("Done.");
 
                 return res;
+            }
+        }
+
+        [Command(Description = "List locales available to create models.")]
+        class Locales : ParamActionCommandBase
+        {
+            [Option(ValueName = "acoustic|language", Description = "Type of models.")]
+            [Required]
+            [Enum(ACOUSTIC, LANGUAGE)]
+            string Type { get; set; }
+
+            [Option(CommandOptionType.NoValue, Description = "Returns only a list of locales, without additional information.")]
+            bool Simple { get; set; }
+
+            int OnExecute()
+            {
+                var locales = CallApi<GetSupportedLocalesForModelsOKResponse>(_speechApi.GetSupportedLocalesForModels);
+
+                var results = new Dictionary<string, IList<string>>()
+                {
+                    { ACOUSTIC, locales.Acoustic },
+                    { LANGUAGE, locales.Language },
+                    //{ "customvoice", locales.CustomVoice }, // none available at the moment
+                };
+
+                if (results.ContainsKey(Type.ToLowerInvariant()))
+                {
+                    if (results[Type.ToLowerInvariant()] == null)
+                    {
+                        if (!Simple)
+                            _console.WriteLine("No locales for this type.");
+                    }
+                    else
+                    {
+                        if (!Simple)
+                            _console.WriteLine($"Supported locales for {Type.ToLowerInvariant()} models:");
+
+                        _console.WriteLine(string.Join('\n', results[Type.ToLowerInvariant()]));
+                    }
+
+                    return 0;
+                }
+
+                return -1;
             }
         }
     }
