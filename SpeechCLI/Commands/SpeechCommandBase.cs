@@ -11,6 +11,10 @@ namespace SpeechCLI.Commands
     [HelpOption("--help")]
     abstract class SpeechCommandBase
     {
+        public const string ACOUSTIC = "acoustic";
+        public const string LANGUAGE = "language";
+        public const string PRONOUNCIATION = "pronounciation";
+
         protected static ISpeechServicesAPIv20 _speechApi;
         protected static IConsole _console;
 

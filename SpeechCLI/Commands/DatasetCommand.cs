@@ -18,6 +18,7 @@ namespace SpeechCLI.Commands
     [Subcommand("list", typeof(List))]
     [Subcommand("show", typeof(Show))]
     [Subcommand("delete", typeof(Delete))]
+    [Subcommand("locales", typeof(Locales))]
     class DatasetCommand : SpeechCommandBase
     {
         public DatasetCommand(ISpeechServicesAPIv20 speechApi, IConsole console) : base(speechApi, console) { }
@@ -158,6 +159,52 @@ namespace SpeechCLI.Commands
                 _console.WriteLine("Done.");
 
                 return res;
+            }
+        }
+
+        [Command(Description = "List locales available to create datasets.")]
+        class Locales : ParamActionCommandBase
+        {
+            [Option(ValueName = "acoustic|language|pronounciation", Description = "Type of datasets.")]
+            [Required]
+            [Enum(ACOUSTIC, LANGUAGE, PRONOUNCIATION)]
+            string Type { get; set; }
+
+            [Option(CommandOptionType.NoValue, Description = "Returns only a list of locales, without additional information.")]
+            bool Simple { get; set; }
+
+            int OnExecute()
+            {
+                var locales = CallApi<GetSupportedLocalesForDatasetsOKResponse>(_speechApi.GetSupportedLocalesForDatasets);
+
+                var results = new Dictionary<string, IList<string>>()
+                {
+                    { ACOUSTIC, locales.Acoustic },
+                    { LANGUAGE, locales.Language },
+                    //{ "customvoice", locales.CustomVoice }, // none available at the moment
+                    //{ "languagegeneration", locales.LanguageGeneration }, // none available at the moment
+                    { PRONOUNCIATION, locales.Pronunciation },
+                };
+
+                if (results.ContainsKey(Type.ToLowerInvariant()))
+                {
+                    if (results[Type.ToLowerInvariant()] == null)
+                    {
+                        if (!Simple)
+                            _console.WriteLine("No locales for this type.");
+                    }
+                    else
+                    {
+                        if (!Simple)
+                            _console.WriteLine($"Supported locales for {Type.ToLowerInvariant()} datasets:");
+
+                        _console.WriteLine(string.Join('\n', results[Type.ToLowerInvariant()]));
+                    }
+
+                    return 0;
+                }
+
+                return -1;
             }
         }
     }
