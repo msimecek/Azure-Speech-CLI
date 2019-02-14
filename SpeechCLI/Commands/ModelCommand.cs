@@ -125,7 +125,7 @@ namespace SpeechCLI.Commands
             [Option(Description = "Language of the model. Default: en-us.")]
             string Locale { get; set; }
 
-            [Option(Description = "Purpose of the base model. Default: AcousticAdaptation.")]
+            [Option(Description = "Purpose of the base model. Use 'all' to disable purpose filter. Default: AcousticAdaptation.")]
             string Purpose { get; set; } = "AcousticAdaptation";
 
             [Option(CommandOptionType.NoValue, Description = "Returns only a list of GUIDs, without additional information. Ordered from newest to oldest.")]
@@ -147,7 +147,10 @@ namespace SpeechCLI.Commands
                 else
                 {
                     foreach (var m in res
-                        .Where(m => m.Locale.ToLower() == (Locale ?? "en-us").ToLower() && m.BaseModel == null && m.Properties["Purpose"].Contains(Purpose))
+                        .Where(
+                            m => m.Locale.ToLower() == (Locale ?? "en-us").ToLower() && 
+                            m.BaseModel == null && 
+                            (Purpose.ToLower() == "all" ? true : m.Properties["Purpose"].Contains(Purpose)))
                         .OrderByDescending(m => m.CreatedDateTime))
                     {
                         _console.WriteLine(
