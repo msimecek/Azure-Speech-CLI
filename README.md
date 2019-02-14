@@ -4,7 +4,7 @@ Unofficial CLI tool for [Microsoft Azure Speech Service](https://docs.microsoft.
 
 ![Build status](https://dev.azure.com/msimecek/AzureSpeechCLI/_apis/build/status/AzureSpeechCLI-GitHub)
 
-## API
+## Speech API
 
 This tool is using [Speech Services API v2.0](https://westus.cris.ai/swagger/ui/index). SDK was generated automatically from the Swagger definition using [AutoRest](https://github.com/Azure/AutoRest), but a few adjustments had to be made to the generated code.
 
@@ -20,7 +20,7 @@ dotnet tool install -g azurespeechcli
 
 Alternatively, you can go to [Releases](https://github.com/msimecek/Azure-Speech-CLI/releases) and download a compiled version for your operating system, or build directly from sources.
 
-> CLI is created with .NET Core and builds are currently running for both Windows and MacOS platforms.
+> CLI is created with .NET Core and builds are currently running for Windows, MacOS and Linux.
 >
 
 ### Configuration
@@ -136,6 +136,12 @@ To **show details of dataset**:
 dataset show --id 63f20d88-f531-4af0-bc85-58e0e9dAAACCDD
 ```
 
+To **show available locales**:
+
+```
+dataset locales
+```
+
 ### Base models
 
 Similarly to datasets there are two types of models in the Speech Service: acoustic and language. Both are created from previously uploaded datasets.
@@ -149,6 +155,22 @@ model list-scenarios --locale en-us
 *`en-us` is the default locale, but you can choose a different one.*
 
 The list will be order by model date - it's recommended to use the newest. Beware that GUIDs can vary between datacenters!
+
+Scenarios can be filtered by **purpose**. Possible values are:
+
+* `OnlineTranscription`
+* `BatchTranscription`
+* `LanguageAdaptation`
+* `AcousticAdaptation`
+* `LanguageOnlineInterpolation`
+
+Default is `AcousticAdaptation`, because that's the type you will use when creating custom speech models.
+
+```
+model list-scenarios --purpose AcousticAdaptation
+```
+
+To disable filtering by purpose, use `--purpose all`.
 
 Output:
 
@@ -185,7 +207,7 @@ a3d8aab9-6f36-44cd-9904-b37389ce2bfa
 
 ### Models
 
-Then you can use GUID of selected scenario in the `create` command:
+Then you can use GUID of selected **scenario** (see [Base models](#base-models)) in the `create` command:
 
 ```
 model create --name CLI --locale en-us --audio-dataset <GUID> --scenario c7a69da3-27de-4a4b-ab75-b6716f6321e5 --wait
@@ -195,6 +217,12 @@ To **create a language model** you need the same scenario GUID and then call:
 
 ```
 model create --name CLI-Lang --locale en-us --language-dataset <GUID> --scenario c7a69da3-27de-4a4b-ab75-b6716f6321e5 --wait
+```
+
+To **show available locales**:
+
+```
+model locales
 ```
 
 ### Tests
