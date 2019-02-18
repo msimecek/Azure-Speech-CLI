@@ -36,7 +36,7 @@ namespace SpeechCLI.Commands
             console.WriteLine("Compiling files...");
 
             var files = Directory.GetFiles(AudioPath).OrderBy(f => f).ToArray();
-            var lines = File.ReadAllLines(TranscriptPath).Where(l => !string.IsNullOrWhiteSpace(l)).ToArray(); // not interested in empty lines
+            var lines = File.ReadAllLines(TranscriptPath).Where(l => !string.IsNullOrWhiteSpace(l)).OrderBy(l => l).ToArray(); // not interested in empty lines
 
             if (files.Length == 0 || lines.Length == 0)
             {
@@ -56,6 +56,7 @@ namespace SpeechCLI.Commands
 
             try
             {
+                //TODO: match on filename - don't take order for granted
                 var trainFiles = files.Take(files.Length - numberOfTests);
                 var trainLines = lines.Take(lines.Length - numberOfTests);
                 var trainFolder = Path.Join(outputFolder, "Train");
