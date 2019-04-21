@@ -167,7 +167,7 @@ namespace SpeechCLI.Commands
         [Command(Description = "Shows status of specific acoustic or language model.")]
         class Status : ParamActionCommandBase
         {
-            [Option(ValueName = "GUID", Description = "(Required) Model ID.")]
+            [Argument(0, Name = "GUID", Description = "(Required) Model ID.")]
             [Required]
             [Guid]
             string Id { get; set; }
@@ -195,7 +195,7 @@ namespace SpeechCLI.Commands
         [Command(Description = "Delete specific acoustic or language model.")]
         class Delete : ParamActionCommandBase
         {
-            [Option(ValueName = "GUID", Description = "(Required) ID of the model to delete.")]
+            [Argument(0, Name = "GUID", Description = "(Required) ID of the model to delete.")]
             [Required]
             [Guid]
             string Id { get; set; }
@@ -214,7 +214,7 @@ namespace SpeechCLI.Commands
         [Command(Description = "List locales available to create models.")]
         class Locales : ParamActionCommandBase
         {
-            [Option(ValueName = "acoustic|language", Description = "Type of models.")]
+            [Argument(0, Name = "acoustic|language", Description = "Type of models.")]
             [Required]
             [Enum(ACOUSTIC, LANGUAGE)]
             string Type { get; set; }

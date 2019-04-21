@@ -40,7 +40,7 @@ speech config set -n Project2 -k ABCD54321 -r westus -s
 Both commands store your credentials as configuration set and automatically make these credentials selected (by using the `--select` parameter). You can have multiple sets and switch between them:
 
 ```
-speech config select --name Project1
+speech config select Project1
 ```
 
 This can be useful when you work with multiple subscriptions.
@@ -69,7 +69,8 @@ Every entity supports basic set of operations:
 When working with a specific entity, ID is usually required:
 
 ```
-speech dataset show --id <GUID>
+speech dataset show <GUID>
+speech model delete <GUID>
 ```
 
 ### Wait
@@ -133,13 +134,15 @@ dataset list
 To **show details of dataset**:
 
 ```
-dataset show --id 63f20d88-f531-4af0-bc85-58e0e9dAAACCDD
+dataset show 63f20d88-f531-4af0-bc85-58e0e9dAAACCDD
 ```
 
 To **show available locales**:
 
 ```
-dataset locales
+dataset locales acoustic
+dataset locales language
+dataset locales pronounciation
 ```
 
 ### Base models
@@ -222,7 +225,8 @@ model create --name CLI-Lang --locale en-us --language-dataset <GUID> --scenario
 To **show available locales**:
 
 ```
-model locales
+model locales acoustic
+model locales language
 ```
 
 ### Tests
@@ -238,7 +242,7 @@ To see the **detail of particular test**, call:
 ```
 speech test list
 ...
-speech test show --id <GUID>
+speech test show <GUID>
 ```
 
 ### Endpoints
@@ -262,7 +266,7 @@ speech transcript create --name CLI --locale en-us --recording <URL> --model <GU
 Once the batch is done, you can call:
 
 ```
-speech transcript show --id <GUID>
+speech transcript show <GUID>
 ```
 
 And get result URLs from response JSON.

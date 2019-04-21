@@ -100,7 +100,7 @@ namespace SpeechCLI.Commands
         [Command(Description = "Shows details of specified accuracy test.")]
         class Show : ParamActionCommandBase
         {
-            [Option(ValueName = "GUID", Description = "(Required) ID of the test to show.")]
+            [Argument(0, Name = "GUID", Description = "(Required) ID of the test to show.")]
             [Guid]
             [Required]
             public string Id { get; set; }
@@ -122,7 +122,7 @@ namespace SpeechCLI.Commands
         [Command(Description = "Shows status of specific accuracy test.")]
         class Status : ParamActionCommandBase
         {
-            [Option(ValueName = "GUID", Description = "(Required) Accuracy test ID.")]
+            [Argument(0, Name = "GUID", Description = "(Required) Accuracy test ID.")]
             [Required]
             [Guid]
             string Id { get; set; }
@@ -148,7 +148,7 @@ namespace SpeechCLI.Commands
         [Command(Description = "Deletes specified accuracy test.")]
         class Delete : ParamActionCommandBase
         {
-            [Option(ValueName ="GUID", Description = "(Required) ID of the test to show.")]
+            [Argument(0, Name ="GUID", Description = "(Required) ID of the test to show.")]
             [Guid]
             [Required]
             public string Id { get; set; }

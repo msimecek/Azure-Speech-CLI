@@ -101,7 +101,7 @@ namespace SpeechCLI.Commands
         [Command(Description = "Selects which config set is currently active. Use this command to switch between subscriptions.")]
         class Select : ParamActionCommandBase
         {
-            [Option(Description = "Configuration set name. This will be selected for all API operations.")]
+            [Argument(0, Description = "Configuration set name. This will be selected for all API operations.")]
             [Required]
             string Name { get; set; }
 
@@ -143,7 +143,7 @@ namespace SpeechCLI.Commands
         [Command(Description = "Removes selected configuration set.")]
         class Delete : ParamActionCommandBase
         {
-            [Option(Description = "Configuration set name.")]
+            [Argument(0, Description = "Configuration set name.")]
             [Required]
             string Name { get; set; }
 

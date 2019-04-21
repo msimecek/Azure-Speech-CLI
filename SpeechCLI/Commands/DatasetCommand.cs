@@ -121,7 +121,7 @@ namespace SpeechCLI.Commands
         [Command(Description = "Show details of a specific dataset.")]
         class Show : ParamActionCommandBase
         {
-            [Option(ValueName = "GUID", Description = "ID of the dataset to show.")]
+            [Argument(0, Name = "GUID", Description = "ID of the dataset to show.")]
             [Guid]
             [Required]
             string Id { get; set; }
@@ -146,7 +146,7 @@ namespace SpeechCLI.Commands
         [Command(Description = "Delete specific dataset.")]
         class Delete : ParamActionCommandBase
         {
-            [Option(ValueName = "GUID", Description = "ID of the dataset to delete.")]
+            [Argument(0, Name = "GUID", Description = "ID of the dataset to delete.")]
             [Required]
             [Guid]
             string Id { get; set; }
@@ -165,7 +165,7 @@ namespace SpeechCLI.Commands
         [Command(Description = "List locales available to create datasets.")]
         class Locales : ParamActionCommandBase
         {
-            [Option(ValueName = "acoustic|language|pronounciation", Description = "Type of datasets.")]
+            [Argument(0, Name = "acoustic|language|pronounciation", Description = "Type of datasets.")]
             [Required]
             [Enum(ACOUSTIC, LANGUAGE, PRONOUNCIATION)]
             string Type { get; set; }

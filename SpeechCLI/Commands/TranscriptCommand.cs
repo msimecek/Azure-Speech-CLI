@@ -104,7 +104,7 @@ namespace SpeechCLI.Commands
         [Command(Description = "Show specific batch transcription.")]
         class Show : ParamActionCommandBase
         {
-            [Option(ValueName = "GUID", Description = "ID of transcription. Use 'batch list' to get your transcriptions.")]
+            [Argument(0, Name = "GUID", Description = "ID of transcription. Use 'batch list' to get your transcriptions.")]
             [Guid]
             [Required]
             string Id { get; set; }
@@ -126,7 +126,7 @@ namespace SpeechCLI.Commands
         [Command(Description = "Delete specific batch transcription.")]
         class Delete : ParamActionCommandBase
         {
-            [Option(ValueName = "GUID", Description = "ID of the transcription to delete.")]
+            [Argument(0, Name = "GUID", Description = "ID of the transcription to delete.")]
             [Required]
             [Guid]
             string Id { get; set; }

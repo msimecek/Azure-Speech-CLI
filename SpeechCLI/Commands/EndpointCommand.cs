@@ -110,7 +110,7 @@ namespace SpeechCLI.Commands
         [Command(Description = "Show details of a specific endpoint.")]
         class Show : ParamActionCommandBase
         {
-            [Option(ValueName = "GUID", Description = "ID of the endpoint to show.")]
+            [Argument(0, Name = "GUID", Description = "ID of the endpoint to show.")]
             [Guid]
             [Required]
             string Id { get; set; }
@@ -135,7 +135,7 @@ namespace SpeechCLI.Commands
         [Command(Description = "Delete specific endpoint.")]
         class Delete : ParamActionCommandBase
         {
-            [Option(ValueName = "GUID", Description = "ID of the endpoint to delete.")]
+            [Argument(0, Name = "GUID", Description = "ID of the endpoint to delete.")]
             [Required]
             [Guid]
             string Id { get; set; }
@@ -153,7 +153,7 @@ namespace SpeechCLI.Commands
         [Command(Description = "Delete specific endpoint's data.")]
         class DeleteData : ParamActionCommandBase
         {
-            [Option(ValueName = "GUID", Description = "ID of the endpoint whose data to delete.")]
+            [Argument(0, Name = "GUID", Description = "ID of the endpoint which data to delete.")]
             [Required]
             [Guid]
             string Id { get; set; }
