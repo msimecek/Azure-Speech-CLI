@@ -134,7 +134,7 @@ namespace SpeechCLI.Commands
             int OnExecute()
             {
                 if (!Simple)
-                    _console.WriteLine("Getting scenarios...");
+                    _console.WriteLine($"Getting scenarios for {Locale}...");
 
                 var res = CallApi<List<Model>>(_speechApi.GetModels);
                 if (res == null)
