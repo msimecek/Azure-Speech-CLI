@@ -10,6 +10,7 @@ using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using SpeechCLI.Utils;
 
 namespace SpeechCLI.Commands
 {
@@ -166,7 +167,7 @@ namespace SpeechCLI.Commands
                 // read URLs (channels)
                 foreach (var url in transcription.ResultsUrls)
                 {
-                    var output = "WEBVTT" + Environment.NewLine + Environment.NewLine;
+                    string output, outputExtension;
 
                     using (var hc = new HttpClient())
                     {
@@ -174,39 +175,21 @@ namespace SpeechCLI.Commands
                         var res = await hc.GetAsync(url.Value);
                         if (res.IsSuccessStatusCode)
                         {
-                            // parse
                             var rawContent = await res.Content.ReadAsStringAsync();
                             var convertedContent = SafeJsonConvert.DeserializeObject<TranscriptionResult>(rawContent);
-                            var outputFileName = Path.Join(OutDir, convertedContent.AudioFileResults[0].AudioFileName);
-
                             switch(Format?.ToLower())
                             {
                                 case "vtt":
-                                    outputFileName += ".vtt";
-                                    var segments = convertedContent.AudioFileResults[0].SegmentResults;
-                                    foreach (var result in segments)
-                                    {
-                                        if (result.RecognitionStatus == "Success")
-                                        {
-                                            var best = result.NBest[0];
-                                            var startTime = TimeSpan.FromTicks(result.Offset).ToString(@"hh\:mm\:ss\.fff");
-                                            var endTime = TimeSpan.FromTicks(result.Offset + result.Duration).ToString(@"hh\:mm\:ss\.fff");
-
-                                            output += $"{startTime} --> {endTime}" + Environment.NewLine;
-
-                                            output += (best.Confidence > 0.5) ? best.Display : "";
-                                            output += Environment.NewLine + Environment.NewLine;
-                                        }
-                                    }
+                                    output = new VttTranscriptParser().Parse(convertedContent, out outputExtension);
                                     break;
                                 case "json":
                                 default:
-                                    outputFileName += ".json";
-                                    output = rawContent;
+                                    output = new JsonTranscriptParser().Parse(convertedContent, out outputExtension);
                                     break;
                             }
 
                             // save to output
+                            var outputFileName = Path.Join(OutDir, convertedContent.AudioFileResults[0].AudioFileName + outputExtension);
                             File.WriteAllText(outputFileName, output);
                             _console.WriteLine($"File {outputFileName} written.");
                         }
