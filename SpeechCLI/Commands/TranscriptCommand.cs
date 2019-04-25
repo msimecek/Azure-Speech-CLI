@@ -11,6 +11,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using SpeechCLI.Utils;
+using Microsoft.CognitiveServices.Speech.Audio;
+using Microsoft.CognitiveServices.Speech;
 
 namespace SpeechCLI.Commands
 {
@@ -21,9 +23,10 @@ namespace SpeechCLI.Commands
     //[Subcommand("status", typeof(Status))]
     [Subcommand("delete", typeof(Delete))]
     [Subcommand("download", typeof(Download))]
+    [Subcommand("single", typeof(Single))]
     class TranscriptCommand : SpeechCommandBase
     {
-        public TranscriptCommand(ISpeechServicesAPIv20 speechApi, IConsole console) : base(speechApi, console) { }
+        public TranscriptCommand(ISpeechServicesAPIv20 speechApi, IConsole console, Config config) : base(speechApi, console, config) { }
 
         [Command(Description = "Start new batch transcription.")]
         class Create : ParamActionCommandBase
@@ -197,6 +200,69 @@ namespace SpeechCLI.Commands
                         {
                             return -1;
                         }
+                    }
+                }
+
+                return 0;
+            }
+
+        }
+
+        [Command(Description = "Run transcription on single, short file.")]
+        class Single : ParamActionCommandBase
+        {
+            [Option(ShortName = "i", LongName = "input", Description = "WAV file for transcription.")]
+            [Required]
+            [FileExists]
+            string InputFile { get; set; }
+
+            [Option(Description = "Speech endpoint which should perform the transcription. If not specified, baseline will be used.")]
+            string Endpoint { get; set; }
+
+            [Option(ValueName = "Simple|Detailed", Description = "... Default: Simple")]
+            OutputFormat OutputFormat { get; set; } = OutputFormat.Simple;
+
+            async Task<int> OnExecute()
+            {
+                var speechConfig = SpeechConfig.FromSubscription(_config.SpeechKey, _config.SpeechRegion);
+                speechConfig.OutputFormat = OutputFormat;
+                if (Endpoint != null)
+                {
+                    speechConfig.EndpointId = Endpoint;
+                }
+
+                var audioConfig = AudioConfig.FromWavFileInput(InputFile);
+
+                using (var recognizer = new SpeechRecognizer(speechConfig, audioConfig))
+                {
+                    var result = await recognizer.RecognizeOnceAsync();
+
+                    if (OutputFormat == OutputFormat.Simple)
+                    {
+                        switch (result.Reason) {
+                            case ResultReason.RecognizedSpeech:
+                                Console.WriteLine(result.Text);
+                                break;
+                            case ResultReason.NoMatch:
+                                Console.WriteLine($"Speech could not be recognized. (NoMatch)");
+                                break;
+                            case ResultReason.Canceled:
+                                var cancellation = CancellationDetails.FromResult(result);
+                                Console.WriteLine($"Recognition was canceled. (CANCELED)");
+
+                                if (cancellation.Reason == CancellationReason.Error)
+                                {
+                                    Console.WriteLine($"CANCELED: ErrorCode: {cancellation.ErrorCode}");
+                                    Console.WriteLine($"CANCELED: ErrorDetails: {cancellation.ErrorDetails}");
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine(SafeJsonConvert.SerializeObject(result));
                     }
                 }
 
