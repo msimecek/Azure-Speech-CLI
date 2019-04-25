@@ -37,7 +37,7 @@ namespace SpeechCLI
             var config = SafeJsonConvert.DeserializeObject<List<Config>>(File.ReadAllText(Config.CONFIG_FILENAME)).FirstOrDefault(c => c.Selected == true);
             if (config == null)
             {
-                Console.WriteLine("No configuration set selected. Run 'config select --name <config set name>' to choose one.");
+                Console.WriteLine("No configuration set selected. Run 'config select <config set name>' to choose one.");
                 app.Conventions.UseDefaultConventions();
             }
             else
