@@ -7,6 +7,6 @@ namespace SpeechCLI.Interfaces
 {
     public interface ITranscriptParser
     {
-        string Parse(TranscriptionResult transcriptionResult, out string outputExtension);
+        (string text, string extension) Parse(TranscriptionResult transcriptionResult);
     }
 }

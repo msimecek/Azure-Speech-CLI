@@ -8,7 +8,7 @@ namespace SpeechCLI.Utils
 {
     public class VttTranscriptParser : ITranscriptParser
     {
-        public string Parse(TranscriptionResult transcriptionResult, out string outputExtension)
+        public (string text, string extension) Parse(TranscriptionResult transcriptionResult)
         {
             var output = new StringBuilder("WEBVTT" + Environment.NewLine + Environment.NewLine);
             
@@ -32,8 +32,7 @@ namespace SpeechCLI.Utils
                 }
             }
 
-            outputExtension = ".vtt";
-            return output.ToString();
+            return (output.ToString(), ".vtt");
         }
     }
 }

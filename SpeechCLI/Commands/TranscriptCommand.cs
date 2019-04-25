@@ -167,7 +167,7 @@ namespace SpeechCLI.Commands
                 // read URLs (channels)
                 foreach (var url in transcription.ResultsUrls)
                 {
-                    string output, outputExtension;
+                    (string text, string extension) output;
 
                     using (var hc = new HttpClient())
                     {
@@ -180,17 +180,17 @@ namespace SpeechCLI.Commands
                             switch(Format?.ToLower())
                             {
                                 case "vtt":
-                                    output = new VttTranscriptParser().Parse(convertedContent, out outputExtension);
+                                    output = new VttTranscriptParser().Parse(convertedContent);
                                     break;
                                 case "json":
                                 default:
-                                    output = new JsonTranscriptParser().Parse(convertedContent, out outputExtension);
+                                    output = new JsonTranscriptParser().Parse(convertedContent);
                                     break;
                             }
 
                             // save to output
-                            var outputFileName = Path.Join(OutDir, convertedContent.AudioFileResults[0].AudioFileName + outputExtension);
-                            File.WriteAllText(outputFileName, output);
+                            var outputFileName = Path.Join(OutDir, convertedContent.AudioFileResults[0].AudioFileName + output.extension);
+                            File.WriteAllText(outputFileName, output.text);
                             _console.WriteLine($"File {outputFileName} written.");
                         }
                         else

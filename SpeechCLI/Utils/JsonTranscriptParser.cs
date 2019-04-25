@@ -9,10 +9,9 @@ namespace SpeechCLI.Utils
 {
     public class JsonTranscriptParser : ITranscriptParser
     {
-        public string Parse(TranscriptionResult transcriptionResult, out string outputExtension)
+        public (string text, string extension) Parse(TranscriptionResult transcriptionResult)
         {
-            outputExtension = ".json";
-            return JsonConvert.SerializeObject(transcriptionResult);
+            return (JsonConvert.SerializeObject(transcriptionResult, Formatting.Indented), ".json");
         }
     }
 }
