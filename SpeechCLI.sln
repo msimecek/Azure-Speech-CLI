@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.156
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeechCLI", "SpeechCLI\SpeechCLI.csproj", "{779EEC6F-0AD5-4866-B6E5-819587C21F0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpeechCLI", "SpeechCLI\SpeechCLI.csproj", "{779EEC6F-0AD5-4866-B6E5-819587C21F0D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeechCLI.Tests", "SpeechCLI.Tests\SpeechCLI.Tests.csproj", "{1D1A0FB2-6B05-4108-8A7A-6A72A7A79310}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{779EEC6F-0AD5-4866-B6E5-819587C21F0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{779EEC6F-0AD5-4866-B6E5-819587C21F0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{779EEC6F-0AD5-4866-B6E5-819587C21F0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D1A0FB2-6B05-4108-8A7A-6A72A7A79310}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D1A0FB2-6B05-4108-8A7A-6A72A7A79310}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D1A0FB2-6B05-4108-8A7A-6A72A7A79310}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D1A0FB2-6B05-4108-8A7A-6A72A7A79310}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

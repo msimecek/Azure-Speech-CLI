@@ -1,0 +1,37 @@
+{
+  "AudioFileResults": [
+    {
+      "AudioFileName": "Channel.1.wav",
+      "SegmentResults": [
+        {
+          "RecognitionStatus": "Success",
+          "Offset": 39200000,
+          "Duration": 41300000,
+          "NBest": [
+            {
+              "Confidence": 0.9076084,
+              "Lexical": "TEST",
+              "ITN": "test",
+              "MaskedITN": "test",
+              "Display": "Test."
+            }
+          ]
+        },
+        {
+          "RecognitionStatus": "Success",
+          "Offset": 93400000,
+          "Duration": 44500000,
+          "NBest": [
+            {
+              "Confidence": 0.9239458,
+              "Lexical": "TEST",
+              "ITN": "test",
+              "MaskedITN": "test",
+              "Display": "Test."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
