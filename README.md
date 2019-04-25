@@ -279,12 +279,19 @@ speech transcript download --id <GUID> --out-dir <PATH> --format VTT
 
 To download transcriptions and convert them to VTT (default is `JSON`).
 
+### Single transcription
+
+If you want to perform transcript of a single, short WAV file, you can use single transcription command like this:
+
+```
+speech transcript single --input "C:\test.wav" --endpoint <GUID> --output-format detailed
+```
+
 ## TODO
 
 - [ ] Work with names too, not just GUIDs
 - [ ] Rework how configuration is initialized and checked on startup
 - [ ] Check if uploaded files are in the correct format (UTF-8 BOM text files)
-- [ ] Add unit tests :)
 
 -----
 
