@@ -19,7 +19,7 @@ namespace SpeechCLI.Commands
     [Subcommand("delete", typeof(Delete))]
     class TestCommand : SpeechCommandBase
     {
-        public TestCommand(ISpeechServicesAPIv20 speechApi, IConsole console) : base(speechApi, console) { }
+        public TestCommand(ISpeechServicesAPIv20 speechApi, IConsole console) : base(speechApi, console, null) { }
 
         [Command(Description = "Creates new accuracy test.")]
         class Create : ParamActionCommandBase

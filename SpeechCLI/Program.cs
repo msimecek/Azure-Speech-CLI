@@ -48,6 +48,7 @@ namespace SpeechCLI
                 sdk.BaseUri = new Uri($"https://{config.SpeechRegion}.cris.ai");
 
                 var services = new ServiceCollection()
+                    .AddSingleton<Config>(config)
                     .AddSingleton<ISpeechServicesAPIv20>(sdk)
                     .BuildServiceProvider();
 

@@ -21,7 +21,7 @@ namespace SpeechCLI.Commands
     [Subcommand("delete-data", typeof(DeleteData))]
     class EndpointCommand : SpeechCommandBase
     {
-        public EndpointCommand(ISpeechServicesAPIv20 speechApi, IConsole console) : base(speechApi, console) { }
+        public EndpointCommand(ISpeechServicesAPIv20 speechApi, IConsole console) : base(speechApi, console, null) { }
 
         [Command(Description = "Create new endpoint model based on acoustic model.\nYou will need model ID (run 'speech model list' first).")]
         [HelpOption()]

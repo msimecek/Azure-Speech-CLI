@@ -21,7 +21,7 @@ namespace SpeechCLI.Commands
     [Subcommand("locales", typeof(Locales))]
     class DatasetCommand : SpeechCommandBase
     {
-        public DatasetCommand(ISpeechServicesAPIv20 speechApi, IConsole console) : base(speechApi, console) { }
+        public DatasetCommand(ISpeechServicesAPIv20 speechApi, IConsole console) : base(speechApi, console, null) { }
 
         [Command(Description = "Create new acoustic dataset.\n- Provide --audio and --transcript file to create acoustic dataset.\n- Provide --language file to create language dataset.")]
         class Create : ParamActionCommandBase

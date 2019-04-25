@@ -22,7 +22,7 @@ namespace SpeechCLI.Commands
     [Subcommand("locales", typeof(Locales))]
     class ModelCommand : SpeechCommandBase
     {
-        public ModelCommand(ISpeechServicesAPIv20 speechApi, IConsole console) : base(speechApi, console) { }
+        public ModelCommand(ISpeechServicesAPIv20 speechApi, IConsole console) : base(speechApi, console, null) { }
 
         [Command(Description = "Create new acoustic model based on adaptation dataset.\nYou will need dataset ID and scenario ID (run 'model list-scenarios' first).")]
         class Create : ParamActionCommandBase

@@ -17,11 +17,13 @@ namespace SpeechCLI.Commands
 
         protected static ISpeechServicesAPIv20 _speechApi;
         protected static IConsole _console;
+        protected static Config _config;
 
-        public SpeechCommandBase(ISpeechServicesAPIv20 speechApi, IConsole console)
+        public SpeechCommandBase(ISpeechServicesAPIv20 speechApi, IConsole console, Config config)
         {
             _speechApi = speechApi;
             _console = console;
+            _config = config;
         }
 
         protected void OnExecute(CommandLineApplication app)
