@@ -143,10 +143,10 @@ namespace SpeechCLI.Commands
             int OnExecute(IConsole console)
             {
                 console.WriteLine("Deleting endpoint...");
-                var res = CallApi(() => _speechApi.DeleteEndpoint(Guid.Parse(Id)));
+                CallApi<ErrorContent>(() => _speechApi.DeleteEndpoint(Guid.Parse(Id)));
                 console.WriteLine("Done.");
 
-                return res;
+                return 0;
             }
         }
 
@@ -161,10 +161,10 @@ namespace SpeechCLI.Commands
             int OnExecute(IConsole console)
             {
                 console.WriteLine("Deleting endpoint data...");
-                var res = CallApi(() => _speechApi.DeleteEndpointData(Guid.Parse(Id)));
+                CallApi<ErrorContent>(() => _speechApi.DeleteEndpointData(Guid.Parse(Id)));
                 console.WriteLine("Done.");
 
-                return res;
+                return 0;
             }
         }
 

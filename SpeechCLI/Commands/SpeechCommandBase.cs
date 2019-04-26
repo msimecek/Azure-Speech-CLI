@@ -32,30 +32,19 @@ namespace SpeechCLI.Commands
         }
 
         /// <summary>
-        /// Call API with method returning null for success and ErrorContent for failure.
-        /// </summary>
-        protected static int CallApi(Func<ErrorContent> method)
-        {
-            var res = method.Invoke();
-            if (res != null)
-            {
-                _console.Error.WriteLine($"API call ended with error: {res.Message}");
-                return -1;
-            }
-
-            return 0;
-        }
-
-        /// <summary>
         /// Call API with method returning meaningful object for success and ErrorContent for failure.
         /// </summary>
+        /// <exception cref="Exception">When the result of API call is ErrorContent.</exception>
         protected static T CallApi<T>(Func<object> method)
         {
             var res = method.Invoke();
             if (res != null && res is ErrorContent)
             {
-                _console.Error.WriteLine($"API call ended with error: {(res as ErrorContent).Message}");
-                return default(T);
+                if ((res as ErrorContent).Code == "Unauthorized")
+                {
+                    _console.Error.WriteLine("Run 'config set' and add your Speech key or select proper configuration set by calling 'config select <name>'.");
+                }
+                throw new Exception($"API call ended with error: {(res as ErrorContent).Message}");
             }
 
             return (T)res;
@@ -63,7 +52,7 @@ namespace SpeechCLI.Commands
 
         protected static int CreateAndWait(Func<object> operation, bool wait, Func<Guid, object> probe)
         {
-            var res = operation.Invoke();
+            var res = CallApi<object>(operation);
             if (res is Guid)
             {
                 if (wait)
@@ -74,7 +63,6 @@ namespace SpeechCLI.Commands
             }
             else
             {
-                _console.WriteLine("There was an error while creating: " + ((ErrorContent)res).Message);
                 return -1;
             }
         }

@@ -204,10 +204,10 @@ namespace SpeechCLI.Commands
             {
                 _console.WriteLine("Deleting model...");
 
-                var res = CallApi(() => _speechApi.DeleteModel(Guid.Parse(Id)));
+                CallApi<ErrorContent>(() => _speechApi.DeleteModel(Guid.Parse(Id)));
                 _console.WriteLine("Done.");
 
-                return res;
+                return 0;
             }
         }
 

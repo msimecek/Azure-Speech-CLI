@@ -156,10 +156,10 @@ namespace SpeechCLI.Commands
             int OnExecute()
             {
                 _console.WriteLine("Deleting test...");
-                var res = CallApi(() => _speechApi.DeleteAccuracyTest(Guid.Parse(Id)));
+                CallApi<ErrorContent>(() => _speechApi.DeleteAccuracyTest(Guid.Parse(Id)));
                 _console.WriteLine("Done.");
 
-                return res;
+                return 0;
             }
         }
 

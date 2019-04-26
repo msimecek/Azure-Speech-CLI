@@ -138,10 +138,10 @@ namespace SpeechCLI.Commands
             int OnExecute()
             {
                 _console.WriteLine("Deleting transcription...");
-                var res = CallApi(() => _speechApi.DeleteTranscription(Guid.Parse(Id)));
+                CallApi<ErrorContent>(() => _speechApi.DeleteTranscription(Guid.Parse(Id)));
                 _console.WriteLine("Done.");
 
-                return res;
+                return 0;
             }
         }
 

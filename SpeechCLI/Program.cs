@@ -31,29 +31,25 @@ namespace SpeechCLI
             {
                 Directory.CreateDirectory(Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".speech"));
                 File.WriteAllText(Config.CONFIG_FILENAME, "[]");
-                Console.WriteLine("Please run 'config set' and add your Speech key.");
             }
             
             var config = SafeJsonConvert.DeserializeObject<List<Config>>(File.ReadAllText(Config.CONFIG_FILENAME)).FirstOrDefault(c => c.Selected == true);
             if (config == null)
             {
-                Console.WriteLine("No configuration set selected. Run 'config select <config set name>' to choose one.");
-                app.Conventions.UseDefaultConventions();
+                config = new Config("Anonymous", "", "northeurope");
             }
-            else
-            {
-                var hc = new HttpClient();
-                hc.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", config.SpeechKey);
-                var sdk = new SpeechServicesAPIv20(hc, true);
-                sdk.BaseUri = new Uri($"https://{config.SpeechRegion}.cris.ai");
+            
+            var hc = new HttpClient();
+            hc.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", config.SpeechKey);
+            var sdk = new SpeechServicesAPIv20(hc, true);
+            sdk.BaseUri = new Uri($"https://{config.SpeechRegion}.cris.ai");
 
-                var services = new ServiceCollection()
-                    .AddSingleton<Config>(config)
-                    .AddSingleton<ISpeechServicesAPIv20>(sdk)
-                    .BuildServiceProvider();
+            var services = new ServiceCollection()
+                .AddSingleton<Config>(config)
+                .AddSingleton<ISpeechServicesAPIv20>(sdk)
+                .BuildServiceProvider();
 
-                app.Conventions.UseDefaultConventions().UseConstructorInjection(services);
-            }
+            app.Conventions.UseDefaultConventions().UseConstructorInjection(services);
 
             try
             {
@@ -61,7 +57,7 @@ namespace SpeechCLI
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error: " + ex.Message);
+                Console.Error.WriteLine(ex.InnerException?.Message);
             }
         }
 

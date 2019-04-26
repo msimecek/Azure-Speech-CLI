@@ -155,10 +155,10 @@ namespace SpeechCLI.Commands
             {
                 _console.WriteLine("Deleting dataset...");
 
-                var res = CallApi(() => _speechApi.DeleteDataset(Guid.Parse(Id)));
+                CallApi<ErrorContent>(() => _speechApi.DeleteDataset(Guid.Parse(Id)));
                 _console.WriteLine("Done.");
 
-                return res;
+                return 0;
             }
         }
 
