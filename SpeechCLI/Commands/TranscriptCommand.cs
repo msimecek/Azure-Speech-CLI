@@ -22,6 +22,7 @@ namespace SpeechCLI.Commands
     [Subcommand("list", typeof(List))]
     [Subcommand("show", typeof(Show))]
     //[Subcommand("status", typeof(Status))]
+    [Subcommand("update", typeof(Update))]
     [Subcommand("delete", typeof(Delete))]
     [Subcommand("download", typeof(Download))]
     [Subcommand("single", typeof(Single))]
@@ -123,6 +124,37 @@ namespace SpeechCLI.Commands
                     return -1;
 
                 _console.WriteLine(SafeJsonConvert.SerializeObject(res, new Newtonsoft.Json.JsonSerializerSettings() { Formatting = Newtonsoft.Json.Formatting.Indented }));
+
+                return 0;
+            }
+        }
+
+        [Command(Description = "Update mutable details of a transcription.")]
+        class Update : ParamActionCommandBase
+        {
+            [Argument(0, Name = "GUID", Description = "ID of transcription. Use 'batch list' to get your transcriptions.")]
+            [Guid]
+            [Required]
+            string Id { get; set; }
+
+            [Option(Description = "Updated transcription name.")]
+            string Name { get; set; }
+
+            [Option(Description = "Updated transcription description.")]
+            string Description { get; set; }
+
+            int OnExecute()
+            {
+                _console.WriteLine($"Updating transcription {Id}...");
+
+                var update = new TranscriptionUpdate();
+                if (Name != null)
+                    update.Name = Name;
+
+                if (Description != null)
+                    update.Description = Description;
+
+                CallApi<Transcription>(() => _speechApi.UpdateTranscription(Guid.Parse(Id), update));
 
                 return 0;
             }
