@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using SpeechCLI.Utils;
 using Microsoft.CognitiveServices.Speech.Audio;
 using Microsoft.CognitiveServices.Speech;
+using SpeechCLI.Interfaces;
 
 namespace SpeechCLI.Commands
 {
@@ -158,7 +159,7 @@ namespace SpeechCLI.Commands
             [LegalFilePath]
             string OutDir { get; set; }
 
-            [Option(ValueName = "JSON|VTT", Description = "(Optional) Output format. Currently supported are: VTT and JSON. Default = JSON")]
+            [Option(ValueName = "JSON|VTT|TXT", Description = "(Optional) Output format. Currently supported are: VTT, JSON and TXT. Default = JSON")]
             string Format { get; set; }
 
             async Task<int> OnExecute()
@@ -180,16 +181,23 @@ namespace SpeechCLI.Commands
                         {
                             var rawContent = await res.Content.ReadAsStringAsync();
                             var convertedContent = SafeJsonConvert.DeserializeObject<TranscriptionResult>(rawContent);
-                            switch(Format?.ToLower())
+                            ITranscriptParser parser;
+
+                            switch (Format?.ToLower())
                             {
                                 case "vtt":
-                                    output = new VttTranscriptParser().Parse(convertedContent);
+                                    parser = new VttTranscriptParser();
+                                    break;
+                                case "txt":
+                                    parser = new TxtTranscriptParser();
                                     break;
                                 case "json":
                                 default:
-                                    output = new JsonTranscriptParser().Parse(convertedContent);
+                                    parser = new JsonTranscriptParser();
                                     break;
                             }
+
+                            output = parser.Parse(convertedContent);
 
                             // save to output
                             var outputFileName = Path.Join(OutDir, convertedContent.AudioFileResults[0].AudioFileName + output.extension);
