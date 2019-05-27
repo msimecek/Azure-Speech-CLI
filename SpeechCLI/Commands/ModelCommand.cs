@@ -133,6 +133,8 @@ namespace SpeechCLI.Commands
 
             int OnExecute()
             {
+                Locale = Locale ?? "en-us";
+
                 if (!Simple)
                     _console.WriteLine($"Getting scenarios for {Locale}...");
 
@@ -148,7 +150,7 @@ namespace SpeechCLI.Commands
                 {
                     foreach (var m in res
                         .Where(
-                            m => m.Locale.ToLower() == (Locale ?? "en-us").ToLower() && 
+                            m => m.Locale.ToLower() == Locale.ToLower() && 
                             m.BaseModel == null && 
                             (Purpose.ToLower() == "all" ? true : m.Properties["Purpose"].Contains(Purpose)))
                         .OrderByDescending(m => m.CreatedDateTime))
