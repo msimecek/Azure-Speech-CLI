@@ -162,6 +162,9 @@ namespace SpeechCLI.Commands
             [Option(ValueName = "JSON|VTT|TXT", Description = "(Optional) Output format. Currently supported are: VTT, JSON and TXT. Default = JSON")]
             string Format { get; set; }
 
+            [Option(ShortName = "fn", Description = "(Optional) Transcript will be downloaded into a file with this name. Extension will be determined by format.")]
+            string FileName { get; set; }
+
             async Task<int> OnExecute()
             {
                 // get transcript
@@ -200,7 +203,7 @@ namespace SpeechCLI.Commands
                             output = parser.Parse(convertedContent);
 
                             // save to output
-                            var outputFileName = Path.Join(OutDir, convertedContent.AudioFileResults[0].AudioFileName + output.extension);
+                            var outputFileName = Path.Join(OutDir, (FileName ?? convertedContent.AudioFileResults[0].AudioFileName) + output.extension);
                             File.WriteAllText(outputFileName, output.text);
                             _console.WriteLine($"File {outputFileName} written.");
                         }
