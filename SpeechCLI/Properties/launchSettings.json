@@ -2,7 +2,7 @@
   "profiles": {
     "SpeechCLI": {
       "commandName": "Project",
-      "commandLineArgs": "transcript update f7e19626-852b-44e2-8188-74acbd52a54c -n \"Audio-21\""
+      "commandLineArgs": ""
     }
   }
 }
