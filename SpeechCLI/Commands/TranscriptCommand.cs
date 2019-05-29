@@ -235,6 +235,11 @@ namespace SpeechCLI.Commands
                             output = parser.Parse(convertedContent);
 
                             // save to output
+                            if (!Directory.Exists(OutDir))
+                            {
+                                Directory.CreateDirectory(OutDir);
+                            }
+
                             var outputFileName = Path.Join(OutDir, (FileName ?? convertedContent.AudioFileResults[0].AudioFileName) + output.extension);
                             File.WriteAllText(outputFileName, output.text);
                             _console.WriteLine($"File {outputFileName} written.");
