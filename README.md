@@ -271,13 +271,25 @@ speech transcript show <GUID>
 
 And get result URLs from response JSON.
 
-Or you can call:
+Or you can call **download** to get it as file:
 
 ```
-speech transcript download --id <GUID> --out-dir <PATH> --format VTT
+speech transcript download --id <GUID> --out-dir <PATH> --format <format> --file-name <filename>
 ```
 
-To download transcriptions and convert them to VTT (default is `JSON`).
+Supported output formats:
+
+* JSON (default)
+* VTT
+* TXT
+
+If you specify `--file-name` this value will be used for the output file (with extension given by format).
+
+To update name or description of batch transcription, use the **update** command:
+
+```
+speech transcript update <GUID> --name <name> --description <description>
+```
 
 ### Single transcription
 
