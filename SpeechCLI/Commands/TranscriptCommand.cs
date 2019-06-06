@@ -197,7 +197,7 @@ namespace SpeechCLI.Commands
         [Command(Description = "Download results of finished transcription.")]
         class Download : ParamActionCommandBase
         {
-            [Option(ValueName = "GUID", Description = "ID of the transcription to download.")]
+            [Argument(0, Name = "GUID", Description = "ID of the transcription to download.")]
             [Required]
             [Guid]
             string Id { get; set; }
