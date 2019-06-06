@@ -53,6 +53,9 @@ namespace SpeechCLI.Commands
             [Option(ShortName = "lng", LongName = "language", ValueName = "GUID", Description = "ID of language model to use. Run 'model list' to get your models. Default: baseline.")]
             string LanguageModel { get; set; }
 
+            [Option(CommandOptionType.NoValue, ShortName = "wt", LongName = "word-level-timestamps", Description = "Include the 'AddWordLevelTimestamps' property with the request. Has priority over Properties parameter.")]
+            bool WordLevelTimestamps { get; set; }
+
             [Option(CommandOptionType.NoValue, Description = "Will stop and wait for transcription to be ready.")]
             bool Wait { get; set; }
 
@@ -61,7 +64,20 @@ namespace SpeechCLI.Commands
 
             int OnExecute()
             {
-                var definition = new TranscriptionDefinition(Recording, Locale ?? "en-us", Name, properties: SplitProperties(Properties));
+                var props = SplitProperties(Properties);
+                if (WordLevelTimestamps)
+                {
+                    if (props == null) 
+                        props = new Dictionary<string, string>();
+
+                    // 'WordLevelTimestamps' option takes precedence and owerwrites 'Properties'
+                    if (props.ContainsKey("AddWordLevelTimestamps"))
+                        props["AddWordLevelTimestamps"] = "True";
+                    else
+                        props.Add("AddWordLevelTimestamps", "True");
+                }
+
+                var definition = new TranscriptionDefinition(Recording, Locale ?? "en-us", Name, properties: props);
                 definition.ModelsProperty = new List<ModelIdentity>();
 
                 if (!string.IsNullOrEmpty(Model))
