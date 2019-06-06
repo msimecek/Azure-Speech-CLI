@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace CRIS.Models
@@ -30,6 +33,15 @@ namespace CRIS.Models
         public string ITN { get; set; }
         public string MaskedITN { get; set; }
         public string Display { get; set; }
+        public Word[] Words { get; set; }
+    }
+
+    public class Word
+    {
+        [JsonProperty("Word")]
+        public string WordText { get; set; }
+        public long Offset { get; set; }
+        public long Duration { get; set; }
     }
 
 }
