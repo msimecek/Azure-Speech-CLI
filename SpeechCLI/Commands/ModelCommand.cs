@@ -125,9 +125,9 @@ namespace SpeechCLI.Commands
             [Option(Description = "Language of the model. Default: en-us.")]
             string Locale { get; set; }
 
-            [Option(Description = "Purpose of the base model. Use 'all' to disable purpose filter. Default: AcousticAdaptation.")]
-            string Purpose { get; set; } = "AcousticAdaptation";
-
+            [Option(ValueName = "OnlineTranscription | BatchTranscription | AcousticAdaptation | LanguageAdaptation", Description = "Purpose of the base model. Use 'all' to disable purpose filter. Default: AcousticAdaptation.")]
+            string Purpose { get; set; } = "AcousticAdaptation";                                                                                     
+                                                                                                                                                     
             [Option(CommandOptionType.NoValue, Description = "Returns only a list of GUIDs, without additional information. Ordered from newest to oldest.")]
             bool Simple { get; set; }
 
