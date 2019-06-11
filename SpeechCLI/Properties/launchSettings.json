@@ -1,7 +1,8 @@
 {
   "profiles": {
     "SpeechCLI": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": ""
     }
   }
 }
