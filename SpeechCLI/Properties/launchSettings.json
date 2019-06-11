@@ -2,7 +2,7 @@
   "profiles": {
     "SpeechCLI": {
       "commandName": "Project",
-      "commandLineArgs": ""
+      "commandLineArgs": "dataset create --name test --language \"D:\\SBUX\\ramsey-speech-client\\data\\training\\utterance.txt\" --Pronunciation \"D:\\SBUX\\ramsey-speech-client\\data\\training\\pro.txt\" --wait"
     }
   }
 }

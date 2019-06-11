@@ -48,6 +48,10 @@ namespace SpeechCLI.Commands
             [FileExists]
             string Language { get; set; }
 
+            [Option(ShortName = "pro", LongName = "pronunciation", ValueName = "FILE", Description = "TXT file with pronunciation dataset.")]
+            [FileExists]
+            string Pronunciation { get; set; }
+
             [Option(CommandOptionType.NoValue, Description = "Will stop and wait for dataset to be ready.")]
             bool Wait { get; set; }
 
@@ -83,6 +87,17 @@ namespace SpeechCLI.Commands
                     res = CreateAndWait(
                         () => _speechApi.UploadDataset(Name, Description, Locale ?? "en-us", "Language", languagedata: languageFile, properties: Properties), 
                         Wait, 
+                        _speechApi.GetDataset);
+                }
+
+                if (Pronunciation != null)
+                {
+                    var pronunciationFile = System.IO.File.OpenRead(Pronunciation);
+
+                    _console.WriteLine("Uploading pronunciation dataset...");
+                    res = CreateAndWait(
+                        () => _speechApi.UploadDataset(Name, Description, Locale ?? "en-us", "Pronunciation", languagedata: pronunciationFile, properties: Properties),
+                        Wait,
                         _speechApi.GetDataset);
                 }
 
