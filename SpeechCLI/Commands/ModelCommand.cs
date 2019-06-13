@@ -63,8 +63,7 @@ namespace SpeechCLI.Commands
             int OnExecute()
             {
                 if (string.IsNullOrWhiteSpace(AudioDataset) 
-                    && string.IsNullOrWhiteSpace(LanguageDataset) 
-                    && string.IsNullOrWhiteSpace(PronunciationDataset))
+                    && string.IsNullOrWhiteSpace(LanguageDataset))
                 {
                     _console.Error.WriteLine("Either --audio-dataset or --language-dataset has to be provided.");
                     return -1;
