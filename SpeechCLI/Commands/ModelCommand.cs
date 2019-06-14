@@ -45,6 +45,10 @@ namespace SpeechCLI.Commands
             [Guid]
             string LanguageDataset { get; set; }
 
+            [Option(ShortName = "pro", ValueName = "GUID", Description = "ID of the pronunciation dataset used to train language model. Required when '--audio-dataset' not provided.")]
+            [Guid]
+            string PronunciationDataset { get; set; }
+
             [Option(ValueName = "GUID", Description = "(Required) ID of base acoustic model. To get available scenarios for given locale, run 'model list-scenarios --locale en-us'.")]
             [Guid]
             [Required]
@@ -58,7 +62,8 @@ namespace SpeechCLI.Commands
 
             int OnExecute()
             {
-                if (string.IsNullOrWhiteSpace(AudioDataset) && string.IsNullOrWhiteSpace(LanguageDataset))
+                if (string.IsNullOrWhiteSpace(AudioDataset) 
+                    && string.IsNullOrWhiteSpace(LanguageDataset))
                 {
                     _console.Error.WriteLine("Either --audio-dataset or --language-dataset has to be provided.");
                     return -1;
@@ -81,7 +86,15 @@ namespace SpeechCLI.Commands
                 else
                 {
                     modelDefinition.ModelKind = "Language";
-                    modelDefinition.Datasets = new List<DatasetIdentity>() { new DatasetIdentity(Guid.Parse(LanguageDataset)) };
+                    if (string.IsNullOrWhiteSpace(PronunciationDataset))
+                    {
+                        modelDefinition.Datasets = new List<DatasetIdentity>() { new DatasetIdentity(Guid.Parse(LanguageDataset)) };
+                    } else
+                    {
+                        modelDefinition.Datasets = new List<DatasetIdentity>() { new DatasetIdentity(Guid.Parse(LanguageDataset)),
+                                                                                 new DatasetIdentity(Guid.Parse(PronunciationDataset))};
+                    }
+
                 }
 
                 _console.WriteLine("Creating model...");
