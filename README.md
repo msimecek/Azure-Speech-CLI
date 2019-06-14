@@ -125,6 +125,12 @@ To **create a language dataset** use:
 dataset create --name CLI-Lang --language "C:\language.txt" --wait
 ```
 
+To create a **pronunciation dataset** use:
+
+```
+dataset create --name CLI-Pro --pronunciation "C:\pronunciation.txt" --wait
+```
+
 To **list available datasets**:
 
 ```
@@ -142,7 +148,7 @@ To **show available locales**:
 ```
 dataset locales acoustic
 dataset locales language
-dataset locales pronounciation
+dataset locales pronunciation
 ```
 
 ### Base models
@@ -222,6 +228,12 @@ To **create a language model** you need the same scenario GUID and then call:
 model create --name CLI-Lang --locale en-us --language-dataset <GUID> --scenario c7a69da3-27de-4a4b-ab75-b6716f6321e5 --wait
 ```
 
+**Pronunciation models** work the same, just provide ID of the pronunciation dataset:
+
+```
+model create --name CLI-Pro --locale en-us --pronunciation-dataset <GUID> --scenario c7a69da3-27de-4a4b-ab75-b6716f6321e5 --wait
+```
+
 To **show available locales**:
 
 ```
@@ -263,6 +275,13 @@ A bonus command, which doesn't revolve around entities. Batch transcription gene
 speech transcript create --name CLI --locale en-us --recording <URL> --model <GUID> --language <GUID> --wait
 ```
 
+To include word-level timestamps, use the word-level-timestamps parameter:
+
+```
+--word-level-timestamps
+-wt
+```
+
 Once the batch is done, you can call:
 
 ```
@@ -274,7 +293,7 @@ And get result URLs from response JSON.
 Or you can call **download** to get it as file:
 
 ```
-speech transcript download --id <GUID> --out-dir <PATH> --format <format> --file-name <filename>
+speech transcript download <GUID> --out-dir <PATH> --format <format> --file-name <filename>
 ```
 
 Supported output formats:
