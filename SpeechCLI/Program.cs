@@ -2,6 +2,7 @@
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Rest.Serialization;
+using SpeechCLI.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -56,10 +57,10 @@ namespace SpeechCLI
             return config;
         }
 
-        static ServiceProvider GetServices(Config config, ISpeechServicesAPIv20 sdk)
+        static ServiceProvider GetServices(IConfig config, ISpeechServicesAPIv20 sdk)
         {
             var services = new ServiceCollection()
-                .AddSingleton<Config>(config)
+                .AddSingleton<IConfig>(config)
                 .AddSingleton<ISpeechServicesAPIv20>(sdk)
                 .BuildServiceProvider();
 

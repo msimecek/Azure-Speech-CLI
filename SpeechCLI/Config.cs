@@ -1,11 +1,12 @@
-﻿using System;
+﻿using SpeechCLI.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
 namespace SpeechCLI
 {
-    public class Config
+    public class Config : IConfig
     {
         public static readonly string CONFIG_FILENAME = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "/.speech/config.json");
 
