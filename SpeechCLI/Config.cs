@@ -14,9 +14,6 @@ namespace SpeechCLI
         public string SpeechRegion { get; set; }
         public bool Selected { get; set; }
 
-        public const string SUCCEEDED_STATUS = "Succeeded";
-        public const string FAILED_STATUS = "Failed";
-
         public Config() { }
 
         public Config(string defaultName = "", string defaultKey = "", string defaultRegion = "", bool defaultSelected = false)

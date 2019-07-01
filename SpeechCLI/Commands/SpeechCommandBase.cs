@@ -1,6 +1,7 @@
 ﻿using CRIS;
 using CRIS.Models;
 using McMaster.Extensions.CommandLineUtils;
+using SpeechCLI.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -78,14 +79,14 @@ namespace SpeechCLI.Commands
                 var resource = probe.Invoke(id);
                 if (resource is Entity)
                 {
-                    if ((resource as Entity).Status == Config.FAILED_STATUS)
+                    if ((resource as Entity).Status == Constants.FAILED_STATUS)
                     {
                         _console.WriteLine(".]");
                         _console.Error.WriteLine("Processing failed.");
                         return -1;
                     }
 
-                    done = (resource as Entity).Status == Config.SUCCEEDED_STATUS;
+                    done = (resource as Entity).Status == Constants.SUCCEEDED_STATUS;
                 }
                 else
                 {
