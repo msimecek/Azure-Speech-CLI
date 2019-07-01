@@ -10,12 +10,11 @@ using System.Net.Http;
 
 namespace SpeechCLI
 {
-
     class Program
     {
         static void Main(string[] args)
         {
-            var config = InitConfig();
+            var config = GetConfig();
 
             var hc = new HttpClient();
             hc.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", config.SpeechKey);
@@ -23,12 +22,12 @@ namespace SpeechCLI
             var sdk = new SpeechServicesAPIv20(hc, true);
             sdk.BaseUri = new Uri($"https://{config.SpeechRegion}.cris.ai");
 
-            var services = InitServices(config, sdk);
-
             CommandLineApplication<MainApp> app = new CommandLineApplication<MainApp>();
             app.HelpOption();
             app.VersionOptionFromAssemblyAttributes(typeof(Program).Assembly);
-            app.Conventions.UseDefaultConventions().UseConstructorInjection(services);
+            app.Conventions
+                .UseDefaultConventions()
+                .UseConstructorInjection(GetServices(config, sdk));
 
             try
             {
@@ -40,7 +39,7 @@ namespace SpeechCLI
             }
         }
 
-        static Config InitConfig()
+        static Config GetConfig()
         {
             if (!File.Exists(Config.CONFIG_FILENAME))
             {
@@ -57,7 +56,7 @@ namespace SpeechCLI
             return config;
         }
 
-        static ServiceProvider InitServices(Config config, ISpeechServicesAPIv20 sdk)
+        static ServiceProvider GetServices(Config config, ISpeechServicesAPIv20 sdk)
         {
             var services = new ServiceCollection()
                 .AddSingleton<Config>(config)
