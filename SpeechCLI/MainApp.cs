@@ -19,6 +19,4 @@ namespace SpeechCLI
             return 0;
         }
     }
-
-    
 }

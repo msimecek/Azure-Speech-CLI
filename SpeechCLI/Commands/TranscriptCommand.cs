@@ -28,7 +28,7 @@ namespace SpeechCLI.Commands
     [Subcommand("single", typeof(Single))]
     class TranscriptCommand : SpeechCommandBase
     {
-        public TranscriptCommand(ISpeechServicesAPIv20 speechApi, IConsole console, Config config) : base(speechApi, console, config) { }
+        public TranscriptCommand(ISpeechServicesAPIv20 speechApi, IConsole console, IConfig config) : base(speechApi, console, config) { }
 
         [Command(Description = "Start new batch transcription.")]
         class Create : ParamActionCommandBase

@@ -1,6 +1,7 @@
 ﻿using CRIS;
 using CRIS.Models;
 using McMaster.Extensions.CommandLineUtils;
+using SpeechCLI.Interfaces;
 using SpeechCLI.Utils;
 using System;
 using System.Collections.Generic;
@@ -18,9 +19,9 @@ namespace SpeechCLI.Commands
 
         protected static ISpeechServicesAPIv20 _speechApi;
         protected static IConsole _console;
-        protected static Config _config;
+        protected static IConfig _config;
 
-        public SpeechCommandBase(ISpeechServicesAPIv20 speechApi, IConsole console, Config config)
+        public SpeechCommandBase(ISpeechServicesAPIv20 speechApi, IConsole console, IConfig config)
         {
             _speechApi = speechApi;
             _console = console;
