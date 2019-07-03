@@ -1,11 +1,12 @@
-﻿using System;
+﻿using SpeechCLI.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
 namespace SpeechCLI
 {
-    public class Config
+    public class Config : IConfig
     {
         public static readonly string CONFIG_FILENAME = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "/.speech/config.json");
 
@@ -13,9 +14,6 @@ namespace SpeechCLI
         public string SpeechKey { get; set; }
         public string SpeechRegion { get; set; }
         public bool Selected { get; set; }
-
-        public const string SUCCEEDED_STATUS = "Succeeded";
-        public const string FAILED_STATUS = "Failed";
 
         public Config() { }
 

@@ -1,6 +1,8 @@
 ﻿using CRIS;
 using CRIS.Models;
 using McMaster.Extensions.CommandLineUtils;
+using SpeechCLI.Interfaces;
+using SpeechCLI.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,9 +19,9 @@ namespace SpeechCLI.Commands
 
         protected static ISpeechServicesAPIv20 _speechApi;
         protected static IConsole _console;
-        protected static Config _config;
+        protected static IConfig _config;
 
-        public SpeechCommandBase(ISpeechServicesAPIv20 speechApi, IConsole console, Config config)
+        public SpeechCommandBase(ISpeechServicesAPIv20 speechApi, IConsole console, IConfig config)
         {
             _speechApi = speechApi;
             _console = console;
@@ -78,14 +80,14 @@ namespace SpeechCLI.Commands
                 var resource = probe.Invoke(id);
                 if (resource is Entity)
                 {
-                    if ((resource as Entity).Status == Config.FAILED_STATUS)
+                    if ((resource as Entity).Status == Constants.FAILED_STATUS)
                     {
                         _console.WriteLine(".]");
                         _console.Error.WriteLine("Processing failed.");
                         return -1;
                     }
 
-                    done = (resource as Entity).Status == Config.SUCCEEDED_STATUS;
+                    done = (resource as Entity).Status == Constants.SUCCEEDED_STATUS;
                 }
                 else
                 {
