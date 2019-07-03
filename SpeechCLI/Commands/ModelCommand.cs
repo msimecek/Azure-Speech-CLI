@@ -149,7 +149,7 @@ namespace SpeechCLI.Commands
                 Locale = Locale ?? "en-us";
 
                 if (!Simple)
-                    _console.WriteLine($"Getting scenarios for {Locale}...");
+                    _console.WriteLine($"Getting {Purpose} scenarios for {Locale}...");
 
                 var res = CallApi<List<Model>>(_speechApi.GetModels);
                 if (res == null)
@@ -171,7 +171,7 @@ namespace SpeechCLI.Commands
                         _console.WriteLine(
                             Simple ? 
                                 $"{m.Id}" : 
-                                $"{m.Id,30} {m.Name,30} {m.CreatedDateTime}");
+                                $"{m.Id} {m.Name,15} ({m.Properties["Purpose"]}) {m.CreatedDateTime}");
                     }
                 }
 
