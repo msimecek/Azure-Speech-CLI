@@ -32,7 +32,6 @@ namespace SpeechCLI.Commands
             string Key { get; set; }
 
             [Option(CommandOptionType.SingleValue, Description = "Speech API region. Default: westus")]
-            [AllowedValues("westus", "westus2", "eastus", "eastus2", "eastasia", "southeastasia", "northeurope", "westeurope")]
             string Region { get; set; }
 
             [Option(CommandOptionType.NoValue, Description = "Make this subscription active after storing settings.")]
