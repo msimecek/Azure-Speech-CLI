@@ -202,8 +202,7 @@ namespace SpeechCLI.Commands
             [Guid]
             string Id { get; set; }
 
-            [Option(Description = "Output directory where transcriptions will be downloaded.")]
-            [Required]
+            [Option(Description = "(Optional) Output directory where transcriptions will be downloaded. Default: current directory")]
             [LegalFilePath]
             string OutDir { get; set; }
 
@@ -215,6 +214,11 @@ namespace SpeechCLI.Commands
 
             async Task<int> OnExecute()
             {
+                if (string.IsNullOrEmpty(OutDir))
+                {
+                    OutDir = Directory.GetCurrentDirectory();
+                }
+
                 // get transcript
                 _console.WriteLine("Getting transcription...");
                 var transcription = CallApi<Transcription>(() => _speechApi.GetTranscription(Guid.Parse(Id)));
