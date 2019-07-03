@@ -100,7 +100,7 @@ namespace SpeechCLI.Commands
         [Command(Description = "Selects which config set is currently active. Use this command to switch between subscriptions.")]
         class Select : ParamActionCommandBase
         {
-            [Argument(0, Description = "Configuration set name. This will be selected for all API operations.")]
+            [Argument(0, Description = "Configuration set name. This will be selected for all API operations. Case sensitive.")]
             [Required]
             string Name { get; set; }
 
@@ -132,10 +132,17 @@ namespace SpeechCLI.Commands
             /// </summary>
             public static void ChangeSelection(string newSelectedName, List<Config> configs)
             {
+                var nameFound = false;
+                
+                // go through all to both select and deselect
                 foreach (var config in configs)
                 {
                     config.Selected = (config.Name == newSelectedName);
+                    if (config.Selected) nameFound = true;
                 }
+
+                if (!nameFound)
+                    throw new ArgumentOutOfRangeException(nameof(newSelectedName), $"Config name {newSelectedName} was not found in the list.");
             }
         }
 
