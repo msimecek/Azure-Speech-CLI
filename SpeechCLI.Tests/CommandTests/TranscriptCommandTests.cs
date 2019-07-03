@@ -83,7 +83,33 @@ namespace SpeechCLI.Tests.CommandTests
             app.Execute(args);
 
             // ASSES
-            Assert.Equal("Getting transcriptions...\r\n00000000-0000-0000-0000-000000000000 Moq Succeeded\r\n", ((MockTestWriter)app.Out).ReadAsString());
+            Assert.Equal($"Getting transcriptions...{app.Out.NewLine}00000000-0000-0000-0000-000000000000 Moq Succeeded{app.Out.NewLine}", ((MockTestWriter)app.Out).ReadAsString());
+        }
+
+        [Fact]
+        public void Create_NoName_Return_Required()
+        {
+            // ARRANGE
+            var request = new TranscriptionDefinition();
+
+            var mock = new Mock<ISpeechServicesAPIv20>();
+            mock.SetupAllProperties();
+            //mock
+            //    .Setup(
+            //        m => m.CreateTranscriptionWithHttpMessagesAsync(request, null, CancellationToken.None)
+            //    )
+            //    .ReturnsAsync(
+            //        new HttpOperationResponse<object, CreateTranscriptionHeaders>() { Body = null }
+            //    );
+
+            var app = InitApp(mock.Object);
+            
+            // ACT
+            var args = CommandIntoArgs("transcript create --model ABCD");
+            app.Execute(args);
+
+            // ASSES
+            Assert.Equal("The --name field is required.\r\n", ((MockTestWriter)app.Out).ReadAsString());
         }
 
     }
