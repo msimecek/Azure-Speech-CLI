@@ -15,12 +15,14 @@ namespace CRIS.Models
     public class AudioFileResult
     {
         public string AudioFileName { get; set; }
+        public string AudioFileUrl { get; set; }
         public SegmentResult[] SegmentResults { get; set; }
     }
 
     public class SegmentResult
     {
         public string RecognitionStatus { get; set; }
+        public int? SpeakerId { get; set; }
         public long Offset { get; set; }
         public int Duration { get; set; }
         public Nbest[] NBest { get; set; }
@@ -33,6 +35,7 @@ namespace CRIS.Models
         public string ITN { get; set; }
         public string MaskedITN { get; set; }
         public string Display { get; set; }
+        public Sentiment Sentiment { get; set; }
         public Word[] Words { get; set; }
     }
 
@@ -42,6 +45,13 @@ namespace CRIS.Models
         public string WordText { get; set; }
         public long Offset { get; set; }
         public long Duration { get; set; }
+    }
+
+    public class Sentiment
+    {
+        public double Negative { get; set; }
+        public double Neutral { get; set; }
+        public double Positive { get; set; }
     }
 
 }
