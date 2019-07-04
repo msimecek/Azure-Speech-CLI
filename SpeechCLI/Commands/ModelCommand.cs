@@ -18,6 +18,7 @@ namespace SpeechCLI.Commands
     [Subcommand("list", typeof(List))]
     [Subcommand("list-scenarios", typeof(ListScenarios))]
     [Subcommand("status", typeof(Status))]
+    [Subcommand("show", typeof(Show))]
     [Subcommand("delete", typeof(Delete))]
     [Subcommand("locales", typeof(Locales))]
     class ModelCommand : SpeechCommandBase
@@ -202,6 +203,28 @@ namespace SpeechCLI.Commands
                     _console.WriteLine(res.Status);
                 else
                     _console.WriteLine($"{res.Id,30} {res.Name,-25} {res.Status}");
+
+                return 0;
+            }
+        }
+
+        [Command(Description = "Show specific model.")]
+        class Show : ParamActionCommandBase
+        {
+            [Argument(0, Name = "GUID", Description = "ID of model. Use 'model list' to get your models.")]
+            [Guid]
+            [Required]
+            string Id { get; set; }
+
+            int OnExecute()
+            {
+                _console.WriteLine("Getting model...");
+
+                var res = CallApi<Model>(() => _speechApi.GetModel(Guid.Parse(Id)));
+                if (res == null)
+                    return -1;
+
+                _console.WriteLine(SafeJsonConvert.SerializeObject(res, new Newtonsoft.Json.JsonSerializerSettings() { Formatting = Newtonsoft.Json.Formatting.Indented }));
 
                 return 0;
             }
