@@ -56,6 +56,9 @@ namespace SpeechCLI.Commands
             [Option(CommandOptionType.NoValue, ShortName = "wt", LongName = "word-level-timestamps", Description = "Include the 'AddWordLevelTimestamps' property with the request. Has priority over Properties parameter.")]
             bool WordLevelTimestamps { get; set; }
 
+            [Option(CommandOptionType.NoValue, ShortName = "di", Description = "Include the 'AddDiarization' property to distinguish between speakers. Has priority over Properties parameter.")]
+            bool Diarization { get; set; }
+
             [Option(CommandOptionType.NoValue, Description = "Will stop and wait for transcription to be ready.")]
             bool Wait { get; set; }
 
@@ -65,12 +68,26 @@ namespace SpeechCLI.Commands
             int OnExecute()
             {
                 var props = SplitProperties(Properties);
+                if (Diarization)
+                {
+                    if (props == null)
+                        props = new Dictionary<string, string>();
+
+                    // 'Diarization' option takes precedence and overwrites 'Properties'
+                    if (props.ContainsKey("AddWordLevelTimestamps"))
+                        props["AddDiarization"] = "True";
+                    else
+                        props.Add("AddDiarization", "True");
+
+                    WordLevelTimestamps = true;
+                }
+
                 if (WordLevelTimestamps)
                 {
                     if (props == null) 
                         props = new Dictionary<string, string>();
 
-                    // 'WordLevelTimestamps' option takes precedence and owerwrites 'Properties'
+                    // 'WordLevelTimestamps' option takes precedence and overwrites 'Properties'
                     if (props.ContainsKey("AddWordLevelTimestamps"))
                         props["AddWordLevelTimestamps"] = "True";
                     else
