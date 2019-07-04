@@ -148,7 +148,7 @@ namespace SpeechCLI.Commands
         [Command(Description = "Update mutable details of a transcription.")]
         class Update : ParamActionCommandBase
         {
-            [Argument(0, Name = "GUID", Description = "ID of transcription. Use 'batch list' to get your transcriptions.")]
+            [Argument(0, Name = "GUID", Description = "ID of transcription. Use 'transcript list' to get your transcriptions.")]
             [Guid]
             [Required]
             string Id { get; set; }

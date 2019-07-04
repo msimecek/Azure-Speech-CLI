@@ -13,7 +13,7 @@ using System.Threading;
 
 namespace SpeechCLI.Commands
 {
-    [Command(Description = "Acoustic model management.")]
+    [Command(Description = "Acoustic and language model management.")]
     [Subcommand("create", typeof(Create))]
     [Subcommand("list", typeof(List))]
     [Subcommand("list-scenarios", typeof(ListScenarios))]
