@@ -59,6 +59,9 @@ namespace SpeechCLI.Commands
             [Option(CommandOptionType.NoValue, ShortName = "di", Description = "Include the 'AddDiarization' property to distinguish between speakers. Has priority over Properties parameter.")]
             bool Diarization { get; set; }
 
+            [Option(CommandOptionType.NoValue, ShortName = "s", Description = "Include the 'AddSentiment' property to identify sentiment per utternace. Has priority over Properties parameter.")]
+            public bool Sentiment { get; set; }
+
             [Option(CommandOptionType.NoValue, Description = "Will stop and wait for transcription to be ready.")]
             bool Wait { get; set; }
 
@@ -68,31 +71,9 @@ namespace SpeechCLI.Commands
             int OnExecute()
             {
                 var props = SplitProperties(Properties);
-                if (Diarization)
-                {
-                    if (props == null)
-                        props = new Dictionary<string, string>();
-
-                    // 'Diarization' option takes precedence and overwrites 'Properties'
-                    if (props.ContainsKey("AddWordLevelTimestamps"))
-                        props["AddDiarization"] = "True";
-                    else
-                        props.Add("AddDiarization", "True");
-
-                    WordLevelTimestamps = true;
-                }
-
-                if (WordLevelTimestamps)
-                {
-                    if (props == null) 
-                        props = new Dictionary<string, string>();
-
-                    // 'WordLevelTimestamps' option takes precedence and overwrites 'Properties'
-                    if (props.ContainsKey("AddWordLevelTimestamps"))
-                        props["AddWordLevelTimestamps"] = "True";
-                    else
-                        props.Add("AddWordLevelTimestamps", "True");
-                }
+                HandleOptionProp(ref props, "AddDiarization", Diarization);
+                HandleOptionProp(ref props, "AddWordLevelTimestamps", WordLevelTimestamps);
+                HandleOptionProp(ref props, "AddSentiment", Sentiment);
 
                 var definition = new TranscriptionDefinition(Recording, Locale ?? "en-us", Name, properties: props);
                 definition.ModelsProperty = new List<ModelIdentity>();
@@ -110,6 +91,21 @@ namespace SpeechCLI.Commands
                     _speechApi.GetTranscription);
 
                 return res;
+            }
+
+            void HandleOptionProp(ref Dictionary<string, string> props, string propName, bool propValue)
+            {
+                if (propValue)
+                {
+                    if (props == null)
+                        props = new Dictionary<string, string>();
+
+                    // Specific option takes precedence and overwrites 'Properties'
+                    if (props.ContainsKey(propName))
+                        props[propName] = "True";
+                    else
+                        props.Add(propName, "True");
+                }
             }
         }
 
