@@ -75,7 +75,7 @@ speech model delete <GUID>
 
 ### Wait
 
-Every *create* command offers optional `--wait` flag which makes the CLI block and wait for the create operation to complete (dataset processed, model trained, endpoint provisioned etc.). When new entity is created, it writes corresponding ID to console.
+Every *create* command offers optional `--wait` (`-w`) flag which makes the CLI block and wait for the create operation to complete (dataset processed, model trained, endpoint provisioned etc.). When new entity is created, it writes corresponding ID to console.
 
 This is useful in automation pipelines when commands are run as individual steps in a complex process.
 
@@ -107,11 +107,11 @@ It creates the output folder, divides data in two sets ("train" and "test") a co
 
 ### Datasets
 
-There are two types of datasets in the Speech Service: **acoustic** and **language**. 
+There are three types of datasets in the Speech Service: **acoustic**, **language** and **pronunciation**.
 
-To create the acoustic dataset, you need to provide a ZIP file with all audio samples and TXT file with corresponding transcriptions.
+To create acoustic dataset, you need to provide a ZIP file with all audio samples and TXT file with corresponding transcriptions.
 
-To create the language dataset, you need to provide TXT file with language data.
+To create language and pronunciation datasets, you need to provide TXT file with language data.
 
 To **create an acoustic dataset** use:
 
@@ -275,12 +275,11 @@ A bonus command, which doesn't revolve around entities. Batch transcription gene
 speech transcript create --name CLI --locale en-us --recording <URL> --model <GUID> --language <GUID> --wait
 ```
 
-To include word-level timestamps, use the word-level-timestamps parameter:
+To include **word-level timestamps**, use the `--word-level-timestamps` (`-wt`) parameter.
 
-```
---word-level-timestamps
--wt
-```
+To activate **diariazation** (speaker separation), use the `--diarization` (`-di`) parameter. This will also force word-level timestamps.
+
+To include **sentiment** score, use the `--sentiment` (`-s`) parameter.
 
 Once the batch is done, you can call:
 
@@ -304,6 +303,8 @@ Supported output formats:
 
 If you specify `--file-name` this value will be used for the output file (with extension given by format).
 
+If you don't specify `--out-dir` current working directory will be used.
+
 To update name or description of batch transcription, use the **update** command:
 
 ```
@@ -321,7 +322,6 @@ speech transcript single --input "C:\test.wav" --endpoint <GUID> --output-format
 ## TODO
 
 - [ ] Work with names too, not just GUIDs
-- [ ] Rework how configuration is initialized and checked on startup
 - [ ] Check if uploaded files are in the correct format (UTF-8 BOM text files)
 
 -----
