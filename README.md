@@ -1,6 +1,8 @@
-# Azure Speech CLI
+# Azure Speech Service Manager CLI
 
-Unofficial CLI tool for [Microsoft Azure Speech Service](https://docs.microsoft.com/azure/cognitive-services/speech-service/overview) management - datasets, models, tests, endpoints etc. Useful especially for automation.
+> **There is now an [official Speech CLI](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/spx-overview) tool from the product team. If you're looking for Microsoft supported and regularly updated CLI experience, [use SPX](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/spx-overview).**
+
+Azure Speech Service Manager CLI is an unofficial command-line tool for [Microsoft Azure Speech Service](https://docs.microsoft.com/azure/cognitive-services/speech-service/overview) management - datasets, models, tests, endpoints etc. Useful especially for automation and CI/CD.
 
 ![Build status](https://dev.azure.com/msimecek/AzureSpeechCLI/_apis/build/status/AzureSpeechCLI-GitHub)
 
@@ -12,7 +14,7 @@ This tool is using [Speech Services API v2.0](https://westus.cris.ai/swagger/ui/
 
 ## Usage
 
-**Now available as dotnet tool!** With .NET Core installed just run:
+With .NET Core installed just run:
 
 ```bash
 dotnet tool install -g azurespeechcli
